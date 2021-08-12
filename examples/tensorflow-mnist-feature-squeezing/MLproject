@@ -35,7 +35,7 @@ entry_points:
     command: >
       python src/jsma.py
       --data-dir {data_dir}
-      --model-name {model_architecture}
+      --model-name {model_name}
       --model-version {model_version}
       --model-architecture {model_architecture}
       --batch-size {batch_size}
@@ -50,7 +50,9 @@ entry_points:
   deepfool:
     parameters:
       data_dir: {type: path, default: "/nfs/data"}
-      model: {type: string, default: "mnist_le_net/1"}
+      model_name: {type: string, default: "mobilenet"}
+      model_version: {type: string, default: "1"}
+      image_size: {type: string, default: "224,224"} #,3"}
       model_architecture: {type: string, default: "le_net"}
       batch_size: {type: float, default: 40}
       seed: {type: float, default: -1}
@@ -62,7 +64,9 @@ entry_points:
     command: >
       python src/deepfool.py
       --data-dir {data_dir}
-      --model {model}
+      --model-name {model_name}
+      --model-version {model_version}
+      --image-size {image_size}
       --model-architecture {model_architecture}
       --batch-size {batch_size}
       --seed {seed}
@@ -196,7 +200,7 @@ entry_points:
     parameters:
       data_dir: {type: path, default: "/nfs/data"}
       run_id: {type: string}
-      model: {type: string, default: "mnist_le_net/1"}
+      model: {type: string, default: "mnist_le_net"}
       model_architecture: {type: string, default: "le_net"}
       batch_size: {type: float, default: 32}
       seed: {type: float, default: -1}
@@ -218,20 +222,32 @@ entry_points:
       --adv-tar-name {adv_tar_name}
       --model-version {model_version}
       --image-size {image_size}
+
   init_model:
     parameters:
-      data_dir: {type: path, default: "/nfs/data"}
-      model_architecture: {type: string, default: "resnet50"}
-      model_tag: {type: string, default: "default_pretrained"}
-      batch_size: {type: float, default: 32}
-      seed: {type: float, default:-1}
+      data_dir: { type: path, default: "/nfs/data" }
+      image_size: { type: string, default: "224,224,3" }
+      model_architecture: { type: string, default: "mobilenet" }
+      epochs: { type: float, default: 30 }
+      batch_size: { type: float, default: 32 }
+      register_model_name: { type: string, default: "" }
+      learning_rate: { type: float, default: 0.001 }
+      optimizer: { type: string, default: "Adam" }
+      validation_split: { type: float, default: 0.2 }
+      seed: { type: float, default: -1 }
     command: >
       python src/init_model.py
       --data-dir {data_dir}
+      --image-size {image_size}
       --model-architecture {model_architecture}
-      --model-tag {model_tag}
+      --epochs {epochs}
       --batch-size {batch_size}
+      --register-model-name {register_model_name}
+      --learning-rate {learning_rate}
+      --optimizer {optimizer}
+      --validation-split {validation_split}
       --seed {seed}
+
 
   train:
     parameters:

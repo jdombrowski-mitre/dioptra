@@ -45,6 +45,7 @@ from mitre.securingai.sdk.utilities.logging import (
 )
 
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 CALLBACKS: List[Dict[str, Any]] = [
     {
         "name": "EarlyStopping",
@@ -293,7 +294,7 @@ def init_train_flow() -> Flow:
             ds=training_ds,
         )
         classifier = pyplugs.call_task(
-            "src",  # for plugin dev
+            f"{_PLUGINS_IMPORT_PATH}.estimators",  # for plugin dev
             "keras_classifiers",
             "init_classifier",
             model_architecture=model_architecture,

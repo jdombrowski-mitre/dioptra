@@ -38,7 +38,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
-
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
     {"name": "l_infinity_norm", "func": "l_inf_norm"},
@@ -99,6 +99,7 @@ def _coerce_int_to_bool(ctx, param, value):
     "--model-name",
     type=click.STRING,
     help="Name of model to load from registry",
+    default="plugin_feature_squeeze_le_net"
 )
 @click.option(
     "--model-version",
@@ -271,10 +272,10 @@ def init_jsma_flow() -> Flow:
             request=DISTANCE_METRICS,
         )
         distance_metrics = pyplugs.call_task(
-            "src",
+            f"{_CUSTOM_PLUGINS_IMPORT_PATH}.squeeze_evaluation",
             "jsma_plugin",
             "create_adversarial_jsma_dataset",
-            model_name="plugin_feature_squeeze_le_net",  # model_name,
+            model_name=model_name,
             model_version=model_version,
             data_dir=testing_dir,
             keras_classifier=keras_classifier,

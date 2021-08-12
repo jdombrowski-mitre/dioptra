@@ -39,6 +39,7 @@ from mitre.securingai.sdk.utilities.logging import (
     set_logging_level,
 )
 
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
     {"name": "l_infinity_norm", "func": "l_inf_norm"},
@@ -338,7 +339,7 @@ def init_cw_flow() -> Flow:
             request=DISTANCE_METRICS,
         )
         distance_metrics = pyplugs.call_task(
-            "src",
+                f"{_CUSTOM_PLUGINS_IMPORT_PATH}.squeeze_evaluation",
             "cw_l2_plugin",
             "create_adversarial_cw_l2_dataset",
             model_name=model_name,

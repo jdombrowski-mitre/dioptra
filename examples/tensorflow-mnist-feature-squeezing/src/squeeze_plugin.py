@@ -108,7 +108,7 @@ def feature_squeeze(
     LOGGER.info("adv_data_dir: ", path=adv_data_dir)
     LOGGER.info("adv_tar_name: ", path=adv_tar_name)
     if model_architecture == "alex_net" or model_architecture == "mobilenet":
-        #            image_size = (224, 224)
+        image_size = (224, 224)
         color_mode = "rgb"
     LOGGER.info("Downloading image archive at ", path=adv_testing_tar_name)
     """   

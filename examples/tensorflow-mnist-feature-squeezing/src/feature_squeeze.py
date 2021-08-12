@@ -52,7 +52,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
-
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
     {"name": "l_infinity_norm", "func": "l_inf_norm"},
@@ -282,16 +282,6 @@ def init_squeeze_flow() -> Flow:
                 dataset_seed=dataset_seed,
             ),
         )
-        """
-        keras_classifier = pyplugs.call_task(
-            f"{_PLUGINS_IMPORT_PATH}.registry",
-            "art",
-            "load_wrapped_tensorflow_keras_classifier",
-            name=model,
-            version=model_version,
-            upstream_tasks=[init_tensorflow_results],
-        )
-        """
         distance_metrics_list = pyplugs.call_task(
             f"{_PLUGINS_IMPORT_PATH}.metrics",
             "distance",
@@ -324,7 +314,7 @@ def init_squeeze_flow() -> Flow:
         )
 
         feature_squeeze = pyplugs.call_task(
-            "src",
+            f"{_CUSTOM_PLUGINS_IMPORT_PATH}.squeeze_evaluation",
             "squeeze_plugin",
             "feature_squeeze",
             data_dir=data_dir,
