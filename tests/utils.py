@@ -14,29 +14,37 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-build:code:
-  stage: build:code
-  script:
-    - /usr/local/bin/python -m build -sw
-  tags:
-    - python-build
-  artifacts:
-    paths:
-      - dist
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: "$CI_COMMIT_TAG"
-    - if: "$CI_COMMIT_BRANCH"
+from __future__ import annotations
 
-build:docs:
-  stage: build:code
-  script:
-    - sphinx-build -b html docs/source docs/build
-  tags:
-    - sphinx
-  artifacts:
-    paths:
-      - docs/build
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: "$CI_COMMIT_BRANCH"
+import timeit
+from pathlib import Path
+from typing import List, Optional, Union
+
+PathLike = List[Union[str, Path]]
+
+
+class Timer(object):
+    def __init__(self, timeout: Optional[float] = None) -> None:
+        self._elapsed = None
+        self._timeout = timeout
+
+    def __enter__(self) -> Timer:
+        self.start = timeit.default_timer()
+        return self
+
+    def __exit__(self, *args) -> None:
+        self._elapsed = timeit.default_timer() - self.start
+
+    @property
+    def elapsed(self) -> float:
+        if self._elapsed is not None:
+            return self._elapsed
+
+        return timeit.default_timer() - self.start
+
+    @property
+    def timeout_exceeded(self) -> bool:
+        if self._timeout is None:
+            return False
+
+        return self._timeout < self.elapsed

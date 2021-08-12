@@ -46,12 +46,7 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-ARG OS_NAME=ubuntu
-ARG OS_VERSION
-ARG OS_BUILD_NUMBER
-
-FROM ${OS_NAME}:${OS_VERSION}-${OS_BUILD_NUMBER}
+FROM ubuntu:latest
 
 USER root
 
@@ -61,6 +56,8 @@ ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 
 RUN apt-get update && \
+    echo "===> Upgrade existing packages...." && \
+    apt-get -y upgrade && \
     echo "===> Installing ca-certificates curl git gosu libbz2-1.0 liblz4-1 liblzma5 libsnappy1v5 libzstd1 unzip wget zlib1g...." && \
     apt-get install -yq --no-install-recommends \
     ca-certificates \
@@ -122,7 +119,7 @@ RUN useradd -u ${AI_UID} -N -m -s /bin/bash -c "Securing AI Testbed user" ${AI_U
     mkdir -p /home/${AI_USER}/.aws/cli && \
     mkdir -p /home/${AI_USER}/.conda && \
     mkdir -p ${CONDA_DIR} && \
-    mkdir -p ${AI_WORKDIR} && \
+    mkdir -p ${AI_WORKDIR}/mlruns && \
     chown -R ${AI_UID}:${AI_GID} /home/${AI_USER} && \
     chown -R ${AI_UID}:${AI_GID} ${CONDA_DIR} && \
     chown -R ${AI_UID}:${AI_GID} ${AI_WORKDIR} && \
@@ -143,7 +140,7 @@ RUN chown ${AI_UID}:${AI_GID} /etc/${PROJECT_PREFIX}/docker/dot-condarc && \
 USER ${AI_UID}
 
 ARG MINICONDA_VERSION
-ARG MINICONDA3_PREFIX=Miniconda3-py37_
+ARG MINICONDA3_PREFIX
 ARG PYTHON_VERSION=default
 
 RUN echo "===> Installing Miniconda3 version ${MINICONDA_VERSION} to ${CONDA_DIR}...." && \
@@ -214,19 +211,4 @@ ENV CONDA_DIR ${CONDA_DIR}
 USER ${AI_UID}
 WORKDIR ${AI_WORKDIR}
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-ARG OS_NAME=ubuntu
-ARG OS_VERSION
-ARG OS_VERSION_NUMBER
-ARG OS_BUILD_NUMBER
-ARG MAINTAINER="James Glasbrenner <jglasbrenner@mitre.org>"
-ARG PROJECT_VERSION
-
-LABEL securingai.docker=true
-LABEL securingai.docker.os.name=${OS_NAME}
-LABEL securingai.docker.os.version.name=${OS_VERSION}
-LABEL securingai.docker.os.version.number=${OS_VERSION_NUMBER}
-LABEL securingai.docker.os.build=${OS_BUILD_NUMBER}
-LABEL securingai.docker.project.component=${PROJECT_COMPONENT}
-LABEL securingai.docker.project.component.maintainer=${MAINTAINER}
-LABEL securingai.docker.project.version=${PROJECT_VERSION}
+VOLUME ["${AI_WORKDIR}/mlruns"]

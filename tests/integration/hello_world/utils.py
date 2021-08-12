@@ -14,43 +14,40 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-include:
-  - local: ci/gitlab-ci-build-code.yml
-  - local: ci/gitlab-ci-mlflow-tracking.yml
-  - local: ci/gitlab-ci-nginx.yml
-  - local: ci/gitlab-ci-python-build.yml
-  - local: ci/gitlab-ci-pytorch-cpu.yml
-  - local: ci/gitlab-ci-pytorch-gpu.yml
-  - local: ci/gitlab-ci-restapi.yml
-  - local: ci/gitlab-ci-sphinx.yml
-  - local: ci/gitlab-ci-tensorflow2-cpu.yml
-  - local: ci/gitlab-ci-tensorflow2-gpu.yml
-  - local: ci/gitlab-ci-tox-py37.yml
-  - local: ci/gitlab-ci-tox-py38.yml
-  - local: ci/gitlab-ci-unit-tests.yml
-  - local: ci/gitlab-ci-version-vars.yml
+import subprocess
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List, Union
 
-variables:
-  PROJECT_PREFIX: securing-ai
+from testinfra.host import Host
 
-stages:
-  - build:image:ci
-  - build:code
-  - test:code
-  - build:image:lab
-  - deploy
+PathLike = List[Union[str, Path]]
 
-pages:
-  stage: deploy
-  needs:
-    - build:docs
-  script:
-    - mv docs/build public
-  tags:
-    - sphinx
-  artifacts:
-    paths:
-      - public
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH == "master"'
-    - if: '$CI_COMMIT_BRANCH == "master"'
+
+@dataclass
+class TestbedHosts(object):
+    minio: Host
+    mlflow_tracking: Host
+    nginx: Host
+    redis: Host
+    restapi: Host
+    tfcpu_01: Host
+
+
+def initialize_minio(
+    compose_file: PathLike,
+    minio_endpoint_alias: str,
+    minio_root_user: str,
+    minio_root_password: str,
+    plugins_builtins_dir: str,
+) -> None:
+    subprocess.check_call(
+        f'docker-compose -f {compose_file} run --rm mc -c "'
+        f"mc alias set {minio_endpoint_alias} http://minio:9000 "
+        f"{minio_root_user} {minio_root_password} && mc mb "
+        f"{minio_endpoint_alias}/plugins {minio_endpoint_alias}/workflow && "
+        f"mc mirror --overwrite --remove /task-plugins/{plugins_builtins_dir}/ "
+        f"{minio_endpoint_alias}/plugins/{plugins_builtins_dir}"
+        '"',
+        shell=True,
+    )

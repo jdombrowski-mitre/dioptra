@@ -14,7 +14,7 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-.PHONY: beautify build-all build-ci build-testbed build-mlflow-tracking build-nginx build-python-build build-pytorch build-pytorch-cpu build-pytorch-gpu build-restapi build-sphinx build-tensorflow build-tensorflow-cpu build-tensorflow-gpu build-tox ci-deps clean code-check code-pkg conda-env docker-deps docs help hooks pull-latest pull-latest-ci pull-latest-hub pull-latest-testbed tag-latest-ci tag-latest-testbed tests tests-integration tests-unit tox
+.PHONY: beautify build-all build-ci build-testbed build-mlflow-tracking build-nginx build-python-build build-pytorch build-pytorch-cpu build-pytorch-gpu build-restapi build-sphinx build-tensorflow build-tensorflow-cpu build-tensorflow-gpu clean code-check code-pkg conda-env docker-deps docs help hooks pull-latest pull-latest-ci pull-latest-hub pull-latest-testbed tag-latest-ci tag-latest-testbed tests tests-integration tests-unit tox
 SHELL := bash
 .ONESHELL:
 .SHELLFLAGS := -eu -O extglob -o pipefail -c
@@ -49,7 +49,6 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = securing-ai-testbed
 PROJECT_PREFIX = securing-ai
 PROJECT_BUILD_DIR = build
-PROJECT_CI_DIR = ci
 PROJECT_DOCS_DIR = docs
 PROJECT_DOCKER_DIR = docker
 PROJECT_DOCKER_SRC_DIR = $(PROJECT_DOCKER_DIR)/src
@@ -76,11 +75,9 @@ PRE_COMMIT = pre-commit
 PY ?= python3.8
 PYTEST = $(PY) -m pytest
 RM = rm
-TOX = tox
+TOX = $(PY) -m tox
 
-CI_VERSION_VARS_YML = $(PROJECT_CI_DIR)/gitlab-ci-version-vars.yml
 CONTAINER_VARS_FILE = container-vars.mk
-GITLAB_CI_FILE = .gitlab-ci.yml
 MAKEFILE_FILE = Makefile
 PRE_COMMIT_CONFIG_FILE = .pre-commit-config.yaml
 SETUP_CFG_FILE = setup.cfg
@@ -89,13 +86,10 @@ VERSION_VARS_FILE = version-vars.mk
 
 CODE_PKG_NAME = mitre-securing-ai
 CODE_BUILD_DIR = dist
-CODE_DOT_TOX_DIR = .tox
 CODE_PIP_CACHE_DIR = .pip-cache
 CODE_INTEGRATION_TESTS_DIR = $(PROJECT_TESTS_DIR)/integration
 CODE_SECURINGAI_BUILTINS_DIR = $(PROJECT_TASK_PLUGINS_DIR)/securingai_builtins
 CODE_UNIT_TESTS_DIR = $(PROJECT_TESTS_DIR)/unit
-CODE_TOX_PY37_PIP_CACHE_DIR = $(CODE_DOT_TOX_DIR)/pip-cache-py37
-CODE_TOX_PY38_PIP_CACHE_DIR = $(CODE_DOT_TOX_DIR)/pip-cache-py38
 CODE_SRC_FILES := $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/generics_plugins/*.py)
 CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/generics_plugins/*/*.py)
 CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/mlflow_plugins/*.py)
@@ -192,8 +186,8 @@ CONTAINER_SCRIPTS =
 DOCS_SENTINEL = $(PROJECT_BUILD_DIR)/.docs.sentinel
 LINTING_SENTINEL = $(PROJECT_BUILD_DIR)/.linting.sentinel
 PRE_COMMIT_HOOKS_SENTINEL = $(PROJECT_BUILD_DIR)/.pre-commit-hooks.sentinel
-TOX_PY37_SENTINEL = $(PROJECT_BUILD_DIR)/.tox-py37.sentinel
-TOX_PY38_SENTINEL = $(PROJECT_BUILD_DIR)/.tox-py38.sentinel
+TOX_UNIT_SENTINEL = $(PROJECT_BUILD_DIR)/.tox-unit.sentinel
+TOX_INTEGRATION_SENTINEL = $(PROJECT_BUILD_DIR)/.tox-integration.sentinel
 TYPE_CHECK_SENTINEL = $(PROJECT_BUILD_DIR)/.type-check.sentinel
 
 #################################################################################
@@ -288,12 +282,10 @@ endef
 define run_build_script
 CORES=$(CORES)\
 IMAGE_TAG=$(strip $(2))\
-OS_VERSION=$(CONTAINER_OS_VERSION) \
-OS_VERSION_NUMBER=$(CONTAINER_OS_VERSION_NUMBER) \
-OS_BUILD_NUMBER=$(CONTAINER_OS_BUILD_NUMBER) \
+CODE_PKG_VERSION=$(CODE_PKG_VERSION)\
 PROJECT_PREFIX=$(PROJECT_PREFIX)\
-PROJECT_VERSION=$(PROJECT_VERSION)\
 PROJECT_COMPONENT=$(strip $(1))\
+MINICONDA3_PREFIX=$(CONTAINER_MINICONDA3_PREFIX)\
 MINICONDA_VERSION=$(CONTAINER_MINICONDA_VERSION)\
 PYTORCH_VERSION=$(CONTAINER_PYTORCH_VERSION)\
 SPHINX_VERSION=$(CONTAINER_SPHINX_VERSION)\
@@ -346,32 +338,8 @@ $(call run_docker,\
     $(strip $(2)))
 endef
 
-define run_tox_py37
-$(call run_docker,\
-    run\
-    -t\
-    --rm\
-    -e PIP_CACHE_DIR=/work/.tox/pip-cache-py37\
-    -u $(strip $(call get_host_user_id)):$(strip $(call get_host_group_id))\
-    -v $(PROJECT_DIR):/work\
-    --entrypoint ""\
-    --workdir /work\
-    $(CONTAINER_TOX_PY37_IMAGE_LATEST)\
-    $(TOX))
-endef
-
-define run_tox_py38
-$(call run_docker,\
-    run\
-    -t\
-    --rm\
-    -e PIP_CACHE_DIR=/work/.tox/pip-cache-py38\
-    -u $(strip $(call get_host_user_id)):$(strip $(call get_host_group_id))\
-    -v $(PROJECT_DIR):/work\
-    --entrypoint ""\
-    --workdir /work\
-    $(CONTAINER_TOX_PY38_IMAGE_LATEST)\
-    $(TOX))
+define run_tox
+$(TOX) $(1)
 endef
 
 define run_yq
@@ -384,25 +352,6 @@ $(call run_docker,\
     mikefarah/yq\
     $(strip $(1))\
     $(strip $(2)))
-endef
-
-define generate_gitlab_ci_version_vars
-( $(call run_yq,\
-    --no-colors\
-    --prettyPrint\
-    eval\
-    --null-input\
-    --unwrapScalar=false\
-    '{"variables": {\
-        "OS_VERSION": "$(CONTAINER_OS_VERSION)"$(COMMA)\
-        "OS_VERSION_NUMBER": "$(CONTAINER_OS_VERSION_NUMBER)"$(COMMA)\
-        "OS_BUILD_NUMBER": "$(CONTAINER_OS_BUILD_NUMBER)"$(COMMA)\
-        "PROJECT_VERSION": "$(PROJECT_VERSION)"$(COMMA)\
-        "MINICONDA_VERSION": "$(CONTAINER_MINICONDA_VERSION)"$(COMMA)\
-        "PYTORCH_VERSION": "$(CONTAINER_PYTORCH_VERSION)"$(COMMA)\
-        "SPHINX_VERSION": "$(CONTAINER_SPHINX_VERSION)"$(COMMA)\
-        "TENSORFLOW2_VERSION": "$(CONTAINER_TENSORFLOW2_VERSION)"\
-    }}',) ) >$(strip $(1))
 endef
 
 define save_sentinel_file
@@ -516,8 +465,6 @@ $(call generate_full_docker_image_vars,PYTORCH_CPU,CONTAINER_IMAGE_TAG,pytorch-c
 $(call generate_full_docker_image_vars,PYTORCH_GPU,CONTAINER_IMAGE_TAG,pytorch-gpu,TESTBED)
 $(call generate_full_docker_image_vars,TENSORFLOW2_CPU,CONTAINER_IMAGE_TAG,tensorflow2-cpu,TESTBED)
 $(call generate_full_docker_image_vars,TENSORFLOW2_GPU,CONTAINER_IMAGE_TAG,tensorflow2-gpu,TESTBED)
-$(call generate_full_docker_image_vars,TOX_PY37,CONTAINER_IMAGE_TAG,tox-py37,CI)
-$(call generate_full_docker_image_vars,TOX_PY38,CONTAINER_IMAGE_TAG,tox-py38,CI)
 
 #################################################################################
 # PROJECT RULES                                                                 #
@@ -530,7 +477,7 @@ beautify: $(BEAUTIFY_SENTINEL)
 build-all: build-ci build-testbed
 
 ## Build all continuous integration (CI) images
-build-ci: build-python-build build-sphinx build-tox
+build-ci: build-python-build build-sphinx
 
 ## Build all Dioptra Testbed images
 build-testbed: build-nginx build-mlflow-tracking build-restapi build-pytorch build-tensorflow
@@ -568,12 +515,6 @@ build-tensorflow-cpu: $(CONTAINER_TENSORFLOW2_CPU_BUILD_SENTINEL)
 ## Build the Tensorflow (GPU) Docker image
 build-tensorflow-gpu: $(CONTAINER_TENSORFLOW2_GPU_BUILD_SENTINEL)
 
-## Build the Tox Docker images
-build-tox: $(CONTAINER_TOX_PY37_BUILD_SENTINEL) $(CONTAINER_TOX_PY38_BUILD_SENTINEL)
-
-## Generate configuration files for GitLab CI
-ci-deps: $(CI_VERSION_VARS_YML)
-
 ## Remove temporary files
 clean: ; $(call cleanup)
 
@@ -608,7 +549,7 @@ pull-latest-hub: ; $(call pull_docker_hub_images,$(DOCKER_HUB_IMAGES_LATEST))
 pull-latest-testbed: ; $(call pull_mitre_docker_images,$(TESTBED_IMAGES_LATEST),$(ARTIFACTORY_UNTRUSTED_PREFIX))
 
 ## Manually set "latest" tag on all continuous integration (CI) images
-tag-latest-ci: $(CONTAINER_PYTHON_BUILD_BUILD_LATEST_SENTINEL) $(CONTAINER_SPHINX_BUILD_LATEST_SENTINEL) $(CONTAINER_TOX_PY37_BUILD_LATEST_SENTINEL) $(CONTAINER_TOX_PY38_BUILD_LATEST_SENTINEL)
+tag-latest-ci: $(CONTAINER_PYTHON_BUILD_BUILD_LATEST_SENTINEL) $(CONTAINER_SPHINX_BUILD_LATEST_SENTINEL)
 
 ## Manually set "latest" tag on all Dioptra Testbed images
 tag-latest-testbed: $(CONTAINER_NGINX_BUILD_LATEST_SENTINEL) $(CONTAINER_RESTAPI_BUILD_LATEST_SENTINEL) $(CONTAINER_MLFLOW_TRACKING_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_GPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_GPU_BUILD_LATEST_SENTINEL)
@@ -623,7 +564,7 @@ tests-integration: $(CODE_INTEGRATION_TESTS_SENTINEL)
 tests-unit: $(CODE_UNIT_TESTS_SENTINEL)
 
 ## Run all tests using tox
-tox: $(TOX_PY38_SENTINEL)
+tox: $(TOX_UNIT_SENTINEL) $(TOX_INTEGRATION_SENTINEL)
 
 #################################################################################
 # PROJECT BUILD RECIPES                                                         #
@@ -631,8 +572,6 @@ tox: $(TOX_PY38_SENTINEL)
 
 $(PROJECT_BUILD_DIR): ; $(call make_subdirectory,$@)
 $(CODE_PIP_CACHE_DIR): ; $(call make_subdirectory,$@)
-$(CODE_TOX_PY37_PIP_CACHE_DIR): ; $(call make_subdirectory,$@)
-$(CODE_TOX_PY38_PIP_CACHE_DIR): ; $(call make_subdirectory,$@)
 
 $(BEAUTIFY_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
 	$(call run_python_black,$(PROJECT_SRC_SECURINGAI_DIR) $(PROJECT_TESTS_DIR) $(CODE_SECURINGAI_BUILTINS_DIR))
@@ -640,9 +579,6 @@ $(BEAUTIFY_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT_T
 	$(call run_isort,$(CODE_SECURINGAI_BUILTINS_DIR))
 	$(call run_isort,$(PROJECT_TESTS_DIR))
 	$(call save_sentinel_file,$@)
-
-$(CI_VERSION_VARS_YML): $(VERSION_VARS_FILE)
-	$(call generate_gitlab_ci_version_vars,$@)
 
 $(CODE_INTEGRATION_TESTS_SENTINEL): $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
 ifneq ($(strip $(CODE_INTEGRATION_TESTS_FILES)),)
@@ -699,12 +635,12 @@ $(TYPE_CHECK_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT
 	$(call run_mypy,$(PROJECT_SRC_SECURINGAI_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
 	$(call save_sentinel_file,$@)
 
-$(TOX_PY37_SENTINEL): $(TOX_CONFIG_FILE) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR) $(CODE_TOX_PY37_PIP_CACHE_DIR)
-	$(call run_tox_py37)
+$(TOX_UNIT_SENTINEL): $(TOX_CONFIG_FILE) $(CODE_UNIT_TESTS_FILES) | $(PROJECT_BUILD_DIR)
+	$(call run_tox,)
 	$(call save_sentinel_file,$@)
 
-$(TOX_PY38_SENTINEL): $(TOX_CONFIG_FILE) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR) $(CODE_TOX_PY38_PIP_CACHE_DIR)
-	$(call run_tox_py38)
+$(TOX_INTEGRATION_SENTINEL): $(TOX_CONFIG_FILE) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
+	$(call run_tox,-e integration)
 	$(call save_sentinel_file,$@)
 
 #################################################################################
@@ -720,8 +656,6 @@ $(call generate_full_docker_image_recipe,PYTORCH_CPU,CODE_PACKAGING_SENTINEL,CON
 $(call generate_full_docker_image_recipe,PYTORCH_GPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
 $(call generate_full_docker_image_recipe,TENSORFLOW2_CPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
 $(call generate_full_docker_image_recipe,TENSORFLOW2_GPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
-$(call generate_full_docker_image_recipe,TOX_PY37,,CONTAINER_IMAGE_TAG)
-$(call generate_full_docker_image_recipe,TOX_PY38,,CONTAINER_IMAGE_TAG)
 
 #################################################################################
 # Self Documenting Commands                                                     #

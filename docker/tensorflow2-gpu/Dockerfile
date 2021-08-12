@@ -46,12 +46,7 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-ARG OS_NAME=ubuntu
-ARG OS_VERSION
-ARG OS_BUILD_NUMBER
-
-FROM ${OS_NAME}:${OS_VERSION}-${OS_BUILD_NUMBER}
+FROM ubuntu:latest
 
 USER root
 
@@ -61,6 +56,8 @@ ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 
 RUN apt-get update && \
+    echo "===> Upgrade existing packages...." && \
+    apt-get -y upgrade && \
     echo "===> Installing ca-certificates curl git gosu libbz2-1.0 liblz4-1 liblzma5 libsnappy1v5 libzstd1 unzip wget zlib1g...." && \
     apt-get install -yq --no-install-recommends \
     ca-certificates \
@@ -143,7 +140,7 @@ RUN chown ${AI_UID}:${AI_GID} /etc/${PROJECT_PREFIX}/docker/dot-condarc && \
 USER ${AI_UID}
 
 ARG MINICONDA_VERSION
-ARG MINICONDA3_PREFIX=Miniconda3-py37_
+ARG MINICONDA3_PREFIX
 ARG PYTHON_VERSION=default
 
 RUN echo "===> Installing Miniconda3 version ${MINICONDA_VERSION} to ${CONDA_DIR}...." && \
@@ -196,14 +193,14 @@ RUN echo "===> Installing Tensorflow (GPU) library...."; \
     echo "===> Fixing directory permissions...." && \
     fix-permissions.sh ${CONDA_DIR} ${AI_WORKDIR} /home/${AI_USER}
 
-ARG PROJECT_VERSION
+ARG CODE_PKG_VERSION
 
-COPY dist/mitre_securing_ai-${PROJECT_VERSION}-py3-none-any.whl /etc/${PROJECT_PREFIX}/docker/mitre_securing_ai-${PROJECT_VERSION}-py3-none-any.whl
+COPY dist/mitre_securing_ai-${CODE_PKG_VERSION}-py3-none-any.whl /etc/${PROJECT_PREFIX}/docker/mitre_securing_ai-${CODE_PKG_VERSION}-py3-none-any.whl
 
 RUN echo "===> Installing Securing AI code module...." && \
     ${CONDA_DIR}/condabin/conda run -n ${AI_CONDA_ENV} \
     pip install --no-cache-dir --no-deps \
-    /etc/${PROJECT_PREFIX}/docker/mitre_securing_ai-${PROJECT_VERSION}-py3-none-any.whl && \
+    /etc/${PROJECT_PREFIX}/docker/mitre_securing_ai-${CODE_PKG_VERSION}-py3-none-any.whl && \
     echo "===> Cleaning/pruning directories...." && \
     find ${CONDA_DIR} -follow -type f -name '*.a' -delete && \
     find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete && \
@@ -259,18 +256,3 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 USER ${AI_UID}
 WORKDIR ${AI_WORKDIR}
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-ARG OS_NAME=ubuntu
-ARG OS_VERSION
-ARG OS_VERSION_NUMBER
-ARG OS_BUILD_NUMBER
-ARG MAINTAINER="James Glasbrenner <jglasbrenner@mitre.org>"
-
-LABEL securingai.docker=true
-LABEL securingai.docker.os.name=${OS_NAME}
-LABEL securingai.docker.os.version.name=${OS_VERSION}
-LABEL securingai.docker.os.version.number=${OS_VERSION_NUMBER}
-LABEL securingai.docker.os.build=${OS_BUILD_NUMBER}
-LABEL securingai.docker.project.component=${PROJECT_COMPONENT}
-LABEL securingai.docker.project.component.maintainer=${MAINTAINER}
-LABEL securingai.docker.project.version=${PROJECT_VERSION}

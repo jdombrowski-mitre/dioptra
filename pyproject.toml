@@ -20,7 +20,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 88
-target-version = ['py37', 'py38']
+target-version = ['py37', 'py38', 'py39']
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -41,17 +41,16 @@ exclude = '''
 name = "cz_conventional_commits"
 version = "0.0.0"
 changelog_file = "CHANGELOG.md"
-changelog_incremental = true
-changelog_start_rev = "v0.0.0"
 version_files = [
     "src/mitre/securingai/mlflow_plugins/__version__.py",
     "src/mitre/securingai/pyplugs/__version__.py",
     "src/mitre/securingai/restapi/__version__.py",
     "src/mitre/securingai/rq/__version__.py",
+    ".github/workflows/docker-images.yml:CODE_PKG_VERSION",
     "docs/source/conf.py:release",
     "pyproject.toml:version",
     "setup.cfg:version",
-    "version-vars.mk:PROJECT_VERSION",
+    "version-vars.mk:CODE_PKG_VERSION",
 ]
 style = [
     ["qmark", "fg:#ff9d00 bold"],
