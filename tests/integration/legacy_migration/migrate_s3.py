@@ -18,6 +18,8 @@ import os
 import shutil
 from pathlib import Path
 
+import mlflow
+import tensorflow as tf
 import yaml
 
 TARGET_FILES = set(["conda.yaml", "MLmodel", "keras_module.txt", "save_format.txt"])
@@ -26,16 +28,35 @@ TARGET_FILES = set(["conda.yaml", "MLmodel", "keras_module.txt", "save_format.tx
 def migrate_s3(root_dir):
     shutil.copytree(src=str(root_dir / "old"), dst=str(root_dir / "new"))
     migration_dir = str(root_dir / "new")
+    model_paths = _extract_model_paths(migration_dir)
+    _update_model_h5_files(model_paths)
 
-    filepaths = _find_files(migration_dir, TARGET_FILES)
-    model_data_dir = Path(filepaths["keras_module.txt"]).parent
 
-    _update_conda_yaml(filepaths["conda.yaml"])
-    _update_mlmodel_yaml(filepaths["MLmodel"])
-    _update_keras_module(filepaths["keras_module.txt"])
-    _update_save_format(
-        filepaths.get("save_format.txt", str(model_data_dir / "save_format.txt"))
-    )
+def _extract_model_paths(s3_path):
+    model_paths = []
+    s3_artifact_path = s3_path + "/mlflow-tracking/artifacts/"
+    for dirname, dirnames, filenames in os.walk(s3_artifact_path):
+        for subdirname in dirnames:
+            path = os.path.join(dirname, subdirname)
+            if "model" == path[-5:]:
+                model_paths.append(path)
+    return model_paths
+
+
+def _update_model_h5_files(model_paths):
+    for model_path in model_paths:
+        model_mlfile_contents_updated = ""
+        is_tensorflow = False
+        with open(model_path + "/MLmodel", "r") as model_mlfile:
+            model_mlfile_contents = model_mlfile.read()
+            is_tensorflow = "tensorflow_core" in model_mlfile_contents
+
+        if is_tensorflow and os.path.isfile(model_path + "/data/model.h5"):
+            model = tf.keras.models.load_model(model_path + "/data/model.h5")
+
+            shutil.rmtree(model_path)
+
+            mlflow.keras.save_model(model, model_path)
 
 
 def _dump_yaml_file(obj, filepath):
