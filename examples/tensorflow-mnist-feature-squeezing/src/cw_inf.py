@@ -38,6 +38,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
+
 _CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
@@ -96,13 +97,10 @@ def _coerce_int_to_bool(ctx, param, value):
     help="Name to give to tarfile artifact containing fgm images",
 )
 @click.option(
-    "--model-name",
-    type=click.STRING,
-    help="Name of model to load from registry",
+    "--model-name", type=click.STRING, help="Name of model to load from registry",
 )
 @click.option(
-    "--model-version",
-    type=click.STRING,
+    "--model-version", type=click.STRING,
 )
 @click.option(
     "--model-architecture",
@@ -117,10 +115,7 @@ def _coerce_int_to_bool(ctx, param, value):
     default=32,
 )
 @click.option(
-    "--max-iter",
-    type=click.INT,
-    help="The maximum number of iterations",
-    default=100,
+    "--max-iter", type=click.INT, help="The maximum number of iterations", default=100,
 )
 @click.option(
     "--learning-rate",
@@ -147,10 +142,7 @@ def _coerce_int_to_bool(ctx, param, value):
     default=5,
 )
 @click.option(
-    "--seed",
-    type=click.INT,
-    help="Set the entry point rng seed",
-    default=-1,
+    "--seed", type=click.INT, help="Set the entry point rng seed", default=-1,
 )
 @click.option(
     "--targeted",
@@ -159,10 +151,7 @@ def _coerce_int_to_bool(ctx, param, value):
     default=False,
 )
 @click.option(
-    "--verbose",
-    type=click.BOOL,
-    help="Show progress bars",
-    default=True,
+    "--verbose", type=click.BOOL, help="Show progress bars", default=True,
 )
 def cw_inf_attack(
     data_dir,

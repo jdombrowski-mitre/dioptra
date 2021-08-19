@@ -150,9 +150,7 @@ def create_adversarial_cw_inf_dataset(
 
         adv_batch = attack.generate(x=x, y=y)
         LOGGER.info(
-            "Saving adversarial image batch",
-            attack="cw_inf",
-            batch_num=batch_num,
+            "Saving adversarial image batch", attack="cw_inf", batch_num=batch_num,
         )
         _save_adv_batch(
             adv_batch, adv_data_dir, y_int, clean_filenames  # ,class_names_list

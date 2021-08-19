@@ -43,6 +43,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
+
 _CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 CALLBACKS: List[Dict[str, Any]] = [
@@ -86,16 +87,22 @@ def _coerce_comma_separated_ints(ctx, param, value):
 @click.option(
     "--model-architecture",
     type=click.Choice(
-        ["resnet50", "vgg16", "shallow_net", "le_net", "le_net_logit", "alex_net", "mobilenet"], case_sensitive=False
+        [
+            "resnet50",
+            "vgg16",
+            "shallow_net",
+            "le_net",
+            "le_net_logit",
+            "alex_net",
+            "mobilenet",
+        ],
+        case_sensitive=False,
     ),
     default="mobilenet",
     help="Model architecture",
 )
 @click.option(
-    "--epochs",
-    type=click.INT,
-    help="Number of epochs to train model",
-    default=30,
+    "--epochs", type=click.INT, help="Number of epochs to train model", default=30,
 )
 @click.option(
     "--batch-size",
@@ -128,34 +135,33 @@ def _coerce_comma_separated_ints(ctx, param, value):
     default=0.2,
 )
 @click.option(
-    "--seed",
-    type=click.INT,
-    help="Set the entry point rng seed",
-    default=-1,
+    "--seed", type=click.INT, help="Set the entry point rng seed", default=-1,
 )
-def train(data_dir,
-        image_size,
-        model_architecture,
-        epochs,
-        batch_size,
-        register_model_name,
-        learning_rate,
-        optimizer,
-        validation_split,
-        seed,):    
+def train(
+    data_dir,
+    image_size,
+    model_architecture,
+    epochs,
+    batch_size,
+    register_model_name,
+    learning_rate,
+    optimizer,
+    validation_split,
+    seed,
+):
     LOGGER.info(
         "Execute MLFlow entry point",
         entry_point="init_model",
-       # data_dir=data_dir,
+        # data_dir=data_dir,
         image_size=image_size,
-       # model_architecture=model_architecture,
+        # model_architecture=model_architecture,
         epochs=epochs,
         batch_size=batch_size,
         register_model_name=register_model_name,
         learning_rate=learning_rate,
         optimizer=optimizer,
         validation_split=validation_split,
-       # seed=seed,
+        # seed=seed,
     )
 
     mlflow.autolog()
@@ -167,19 +173,20 @@ def train(data_dir,
                 active_run=active_run,
                 training_dir=Path(data_dir),
                 image_size=image_size,
-                #model_architecture=model_architecture,
+                # model_architecture=model_architecture,
                 epochs=epochs,
                 batch_size=batch_size,
                 register_model_name=register_model_name,
                 learning_rate=learning_rate,
                 optimizer_name=optimizer,
                 validation_split=validation_split,
-               #seed=seed,
-               # data_dir=data_dir
+                # seed=seed,
+                # data_dir=data_dir
             )
         )
 
     return state
+
 
 """
 training_dir=Path(data_dir),#/ "training",
@@ -187,14 +194,16 @@ training_dir=Path(data_dir),#/ "training",
 #seed=seed
 
 """
+
+
 def init_train_flow() -> Flow:
     with Flow("Train Model") as flow:
         (
             active_run,
             training_dir,
-            #testing_dir,
+            # testing_dir,
             image_size,
-            #model_architecture,
+            # model_architecture,
             epochs,
             batch_size,
             register_model_name,
@@ -208,7 +217,7 @@ def init_train_flow() -> Flow:
             Parameter("training_dir"),
             #   Parameter("testing_dir"),
             Parameter("image_size"),
-            #Parameter("model_architecture"),
+            # Parameter("model_architecture"),
             Parameter("epochs"),
             Parameter("batch_size"),
             Parameter("register_model_name"),
@@ -283,7 +292,7 @@ def init_train_flow() -> Flow:
             "src",
             "tensorflow_plugin",
             "create_image_dataset",
-            data_dir=training_dir, #testing_dir
+            data_dir=training_dir,  # testing_dir
             subset=None,
             image_size=image_size,
             seed=dataset_seed + 1,
@@ -301,14 +310,14 @@ def init_train_flow() -> Flow:
             "src",  # for plugin dev
             "init_model_plugin",
             "load_and_test_model",
-            model_architecture= "resnet50", #model_architecture,
+            model_architecture="resnet50",  # model_architecture,
             data_dir=training_dir,
             register_model_name=register_model_name,
             batch_size=batch_size,
             seed=seed,
             upstream_tasks=[init_tensorflow_results],
         )
-        
+
         history = pyplugs.call_task(
             f"{_PLUGINS_IMPORT_PATH}.estimators",
             "methods",
@@ -322,7 +331,7 @@ def init_train_flow() -> Flow:
                 verbose=2,
             ),
         )
-        
+
         classifier_performance_metrics = evaluate_metrics_tensorflow(
             classifier=classifier, dataset=testing_ds, upstream_tasks=[history]
         )

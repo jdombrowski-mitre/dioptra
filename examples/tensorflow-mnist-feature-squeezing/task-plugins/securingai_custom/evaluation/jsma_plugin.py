@@ -130,9 +130,7 @@ def create_adversarial_jsma_dataset(
         ]
 
         LOGGER.info(
-            "Generate adversarial image batch",
-            attack="jsma",
-            batch_num=batch_num,
+            "Generate adversarial image batch", attack="jsma", batch_num=batch_num,
         )
 
         y_int = np.argmax(y, axis=1)

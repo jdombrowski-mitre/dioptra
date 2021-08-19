@@ -50,7 +50,6 @@ class SecuringAIClient(object):
             (self._scheme, self._netloc, os.path.join(self._path, "job/"), "", "", "")
         )
 
-
     @property
     def task_plugin_endpoint(self) -> str:
         return urlunparse(
@@ -113,7 +112,6 @@ class SecuringAIClient(object):
     def list_jobs(self) -> List[Dict[str, Any]]:
         return requests.get(self.job_endpoint).json()
 
-
     def get_queue_by_id(self, id: int):
         queue_id_query: str = urljoin(self.queue_endpoint, str(id))
         return requests.get(queue_id_query).json()
@@ -156,15 +154,11 @@ class SecuringAIClient(object):
         queue_name_query: str = urljoin(self.queue_endpoint, "name", name, "lock")
         return requests.delete(queue_name_query).json()
 
-    def register_experiment(
-        self,
-        name: str,
-    ) -> Dict[str, Any]:
+    def register_experiment(self, name: str,) -> Dict[str, Any]:
         experiment_registration_form = {"name": name}
 
         response = requests.post(
-            self.experiment_endpoint,
-            data=experiment_registration_form,
+            self.experiment_endpoint, data=experiment_registration_form,
         )
 
         return response.json()
@@ -172,10 +166,7 @@ class SecuringAIClient(object):
     def register_queue(self, name: str = "tensorflow_cpu") -> Dict[str, Any]:
         queue_registration_form = {"name": name}
 
-        response = requests.post(
-            self.queue_endpoint,
-            data=queue_registration_form,
-        )
+        response = requests.post(self.queue_endpoint, data=queue_registration_form,)
 
         return response.json()
 
@@ -206,11 +197,7 @@ class SecuringAIClient(object):
 
         with workflows_file.open("rb") as f:
             job_files = {"workflow": (workflows_file.name, f)}
-            response = requests.post(
-                self.job_endpoint,
-                data=job_form,
-                files=job_files,
-            )
+            response = requests.post(self.job_endpoint, data=job_form, files=job_files,)
 
         return response.json()
 
@@ -236,6 +223,7 @@ class SecuringAIClient(object):
             )
 
         return response.json()
+
 
 def notebook_gallery(images: PathLike, row_height: str = "auto") -> HTML:
     """Display a set of images in a gallery that flexes with the width of the notebook.

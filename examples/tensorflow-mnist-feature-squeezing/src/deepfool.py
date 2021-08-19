@@ -38,6 +38,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
+
 _CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
@@ -101,14 +102,12 @@ def _coerce_int_to_bool(ctx, param, value):
     default="mobilenet",
     help="Name of model to load from registry",
 )
-@click.option(
-    "--model-version",
-    type=click.STRING,
-    default="1"
-)
+@click.option("--model-version", type=click.STRING, default="1")
 @click.option(
     "--model-architecture",
-    type=click.Choice(["shallow_net", "le_net", "alex_net", "mobilenet"], case_sensitive=False),
+    type=click.Choice(
+        ["shallow_net", "le_net", "alex_net", "mobilenet"], case_sensitive=False
+    ),
     default="mobilenet",
     help="Model architecture",
 )
@@ -118,12 +117,8 @@ def _coerce_int_to_bool(ctx, param, value):
     help="Batch size to use when training a single epoch",
     default=32,
 )
-
 @click.option(
-    "--max-iter",
-    type=click.INT,
-    help="The maximum number of iterations",
-    default=10,
+    "--max-iter", type=click.INT, help="The maximum number of iterations", default=10,
 )
 @click.option(
     "--nb-grads",
@@ -132,23 +127,13 @@ def _coerce_int_to_bool(ctx, param, value):
     default=10,
 )
 @click.option(
-    "--epsilon",
-    type=click.FLOAT,
-    help="Oversoot parameter",
-    default=0.000001,
-)
-
-@click.option(
-    "--seed",
-    type=click.INT,
-    help="Set the entry point rng seed",
-    default=-1,
+    "--epsilon", type=click.FLOAT, help="Oversoot parameter", default=0.000001,
 )
 @click.option(
-    "--verbose",
-    type=click.BOOL,
-    help="Show progress bars",
-    default=True,
+    "--seed", type=click.INT, help="Set the entry point rng seed", default=-1,
+)
+@click.option(
+    "--verbose", type=click.BOOL, help="Show progress bars", default=True,
 )
 def deepfool_attack(
     data_dir,
@@ -187,7 +172,7 @@ def deepfool_attack(
         flow: Flow = init_deepfool_flow()
         state = flow.run(
             parameters=dict(
-                testing_dir=Path(data_dir), #/ "testing",
+                testing_dir=Path(data_dir),  # / "testing",
                 image_size=image_size,
                 adv_tar_name=adv_tar_name,
                 adv_data_dir=(Path.cwd() / adv_data_dir).resolve(),
@@ -199,8 +184,8 @@ def deepfool_attack(
                 max_iter=max_iter,
                 nb_grads=nb_grads,
                 epsilon=epsilon,
-                #model_architecture=model_architecture,
-                #verbose=verbose,
+                # model_architecture=model_architecture,
+                # verbose=verbose,
             )
         )
 
@@ -224,7 +209,7 @@ def init_deepfool_flow() -> Flow:
             max_iter,
             nb_grads,
             epsilon,
-       )  = (
+        ) = (
             Parameter("testing_dir"),
             Parameter("image_size"),
             Parameter("adv_tar_name"),

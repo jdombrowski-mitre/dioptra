@@ -113,11 +113,12 @@ def evaluate_metrics(model, testing_ds):
 # Load pretrained model and test against input dataset.
 
 
-
 @pyplugs.register
 @require_package("art", exc_type=ARTDependencyError)
 @require_package("tensorflow", exc_type=TensorflowDependencyError)
-def load_and_test_model(data_dir, model_architecture, batch_size, seed, register_model_name):
+def load_and_test_model(
+    data_dir, model_architecture, batch_size, seed, register_model_name
+):
 
     rng = np.random.default_rng(seed if seed >= 0 else None)
     if seed < 0:
@@ -134,20 +135,19 @@ def load_and_test_model(data_dir, model_architecture, batch_size, seed, register
     mlflow.log_param("entry_point_seed", seed)
     mlflow.log_param("tensorflow_global_seed", tensorflow_global_seed)
     mlflow.log_param("dataset_seed", dataset_seed)
-    
 
     model_name = f"{register_model_name}"
 
     LOGGER.info(
-            "Loading Pretrained Model",
-            model_name=model_name,
-            model_architecture=model_architecture,
-        )
+        "Loading Pretrained Model",
+        model_name=model_name,
+        model_architecture=model_architecture,
+    )
 
     model_collection = {
-            "resnet50": model_resnet50,
-            "vgg16": model_vgg16,
-            "mobilenet": model_mobilenet,
+        "resnet50": model_resnet50,
+        "vgg16": model_vgg16,
+        "mobilenet": model_mobilenet,
     }
     if model_architecture == "mobilenet":
         temp = model_collection[model_architecture]()
@@ -157,8 +157,7 @@ def load_and_test_model(data_dir, model_architecture, batch_size, seed, register
         newmodel.summary()
 
         newmodel.compile(
-            loss="categorical_crossentropy",
-            metrics=METRICS,
+            loss="categorical_crossentropy", metrics=METRICS,
         )
 
         mlflow.keras.log_model(
@@ -170,14 +169,11 @@ def load_and_test_model(data_dir, model_architecture, batch_size, seed, register
     model = model_collection[model_architecture]()
     model.summary()
     model.compile(
-        loss="categorical_crossentropy",
-        metrics=METRICS,
+        loss="categorical_crossentropy", metrics=METRICS,
     )
     if model_architecture != "mobilenet":
         mlflow.keras.log_model(
-            keras_model=model,
-            artifact_path="model",
-            registered_model_name=model_name,
+            keras_model=model, artifact_path="model", registered_model_name=model_name,
         )
     """
     dataset = Path(data_dir)
@@ -192,6 +188,7 @@ def load_and_test_model(data_dir, model_architecture, batch_size, seed, register
     evaluate_metrics(model=model, testing_ds=ds)
     """
     return model
+
 
 if __name__ == "__main__":
     configure_stdlib_logger("INFO", log_filepath=None)

@@ -59,6 +59,7 @@ except ImportError:  # pragma: nocover
         package="tensorflow",
     )
 
+
 def evaluate_classification_metrics(classifier, adv_ds):
     LOGGER.info("evaluating classification metrics using adversarial images")
     result = classifier.model.evaluate(adv_ds, verbose=0)
@@ -70,10 +71,10 @@ def evaluate_classification_metrics(classifier, adv_ds):
     for metric_name, metric_value in adv_metrics.items():
         mlflow.log_metric(key=metric_name, value=metric_value)
 
+
 @pyplugs.register
 @require_package("art", exc_type=ARTDependencyError)
 @require_package("tensorflow", exc_type=TensorflowDependencyError)
-
 def create_adversarial_deepfool_dataset(
     data_dir: str,
     model_name: str,
@@ -81,18 +82,23 @@ def create_adversarial_deepfool_dataset(
     epsilon: float,
     nb_grads: int,
     max_iter: int,
-    image_size: Tuple[int, int], #= (224, 224),
+    image_size: Tuple[int, int],  # = (224, 224),
     keras_classifier: KerasClassifier,
     adv_data_dir: Path = None,
     rescale: float = 1.0,
     batch_size: int = 40,
     label_mode: str = "categorical",
     color_mode: str = "rgb",
-
     **kwargs,
 ):
-    model_name = model_name +"/"+ model_version
-    attack = DeepFool(classifier=keras_classifier, batch_size=batch_size, epsilon=epsilon, nb_grads=nb_grads, max_iter=max_iter)
+    model_name = model_name + "/" + model_version
+    attack = DeepFool(
+        classifier=keras_classifier,
+        batch_size=batch_size,
+        epsilon=epsilon,
+        nb_grads=nb_grads,
+        max_iter=max_iter,
+    )
     classifier = keras_classifier
     LOGGER.info("Deepfool Batch Size: ", batch_size=batch_size)
     adv_data_dir = Path(adv_data_dir)
@@ -133,16 +139,12 @@ def create_adversarial_deepfool_dataset(
         ]
 
         LOGGER.info(
-            "Generate adversarial image batch",
-            attack="deepfool",
-            batch_num=batch_num,
+            "Generate adversarial image batch", attack="deepfool", batch_num=batch_num,
         )
 
         y_int = np.argmax(y, axis=1)
         adv_batch = attack.generate(x=x)
-        _save_adv_batch(
-            adv_batch, adv_data_dir, y_int, clean_filenames
-        )
+        _save_adv_batch(adv_batch, adv_data_dir, y_int, clean_filenames)
 
         _evaluate_distance_metrics(
             clean_filenames=clean_filenames,

@@ -38,6 +38,7 @@ from mitre.securingai.sdk.utilities.logging import (
     configure_structlog,
     set_logging_level,
 )
+
 _CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
 _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 DISTANCE_METRICS: List[Dict[str, str]] = [
@@ -98,12 +99,11 @@ def _coerce_int_to_bool(ctx, param, value):
 @click.option(
     "--model-name",
     type=click.STRING,
+    default="plugin_feature_squeeze_le_net",
     help="Name of model to load from registry",
-    default="plugin_feature_squeeze_le_net"
 )
 @click.option(
-    "--model-version",
-    type=click.STRING,
+    "--model-version", type=click.STRING,
 )
 @click.option(
     "--model-architecture",
@@ -118,9 +118,7 @@ def _coerce_int_to_bool(ctx, param, value):
     default=32,
 )
 @click.option(
-    "--theta",
-    type=click.FLOAT,
-    default="0.01",
+    "--theta", type=click.FLOAT, default="0.01",
 )
 @click.option(
     "--gamma",
@@ -129,16 +127,10 @@ def _coerce_int_to_bool(ctx, param, value):
     help=" Confidence of adversarial examples",
 )
 @click.option(
-    "--seed",
-    type=click.INT,
-    help="Set the entry point rng seed",
-    default=-1,
+    "--seed", type=click.INT, help="Set the entry point rng seed", default=-1,
 )
 @click.option(
-    "--verbose",
-    type=click.BOOL,
-    help="Show progress bars",
-    default=True,
+    "--verbose", type=click.BOOL, help="Show progress bars", default=True,
 )
 def jsma_attack(
     data_dir,
@@ -180,12 +172,12 @@ def jsma_attack(
                 adv_tar_name=adv_tar_name,
                 adv_data_dir=(Path.cwd() / adv_data_dir).resolve(),
                 distance_metrics_filename="distance_metrics.csv",
-                #               model_name=model_name,
+                model_name=model_name,
                 model_version=model_version,
                 batch_size=batch_size,
                 seed=seed,
                 #               model_architecture=model_architecture,
-                #               verbose=verbose,
+                #                verbose=verbose,
                 theta=theta,
                 gamma=gamma,
             )

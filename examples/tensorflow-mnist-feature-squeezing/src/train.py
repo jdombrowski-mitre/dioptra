@@ -93,10 +93,7 @@ def _coerce_comma_separated_ints(ctx, param, value):
     help="Model architecture",
 )
 @click.option(
-    "--epochs",
-    type=click.INT,
-    help="Number of epochs to train model",
-    default=30,
+    "--epochs", type=click.INT, help="Number of epochs to train model", default=30,
 )
 @click.option(
     "--batch-size",
@@ -129,10 +126,7 @@ def _coerce_comma_separated_ints(ctx, param, value):
     default=0.2,
 )
 @click.option(
-    "--seed",
-    type=click.INT,
-    help="Set the entry point rng seed",
-    default=-1,
+    "--seed", type=click.INT, help="Set the entry point rng seed", default=-1,
 )
 def train(
     data_dir,
