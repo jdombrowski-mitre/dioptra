@@ -149,6 +149,20 @@ CONTAINER_TENSORFLOW2_GPU_SCRIPTS =\
     $(CONTAINER_TENSORFLOW2_GPU_INCLUDE_DIR)/secure-container.sh\
     $(CONTAINER_TENSORFLOW2_GPU_INCLUDE_DIR)/unpack-archive.sh
 
+# Web App -----------------------------------------------------------------------
+
+CONTAINER_WEB_APP_CONDA_ENV_FILES =\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/environment-web-app.yml
+CONTAINER_WEB_APP_INCLUDE_FILES =\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/aws-config\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/bash.bashrc\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/dot-condarc\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/streamlit-config.toml
+CONTAINER_WEB_APP_SCRIPTS =\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/entrypoint-web-app.sh\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/fix-permissions.sh\
+    $(CONTAINER_WEB_APP_INCLUDE_DIR)/secure-container.sh
+
 # Legacy RESTAPI (Python 3.7) ---------------------------------------------------
 
 CONTAINER_RESTAPI_PY37_CONDA_ENV_FILES =\

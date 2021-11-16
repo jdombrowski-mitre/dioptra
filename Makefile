@@ -14,7 +14,7 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-.PHONY: beautify build-all build-legacy build-mlflow-tracking build-nginx build-pytorch build-pytorch-cpu build-pytorch-gpu build-restapi build-tensorflow build-tensorflow-cpu build-tensorflow-gpu clean code-check code-pkg conda-env docker-deps docs help hooks pull-latest tag-latest tests tests-integration tests-unit tox
+.PHONY: beautify build-all build-legacy build-mlflow-tracking build-nginx build-pytorch build-pytorch-cpu build-pytorch-gpu build-restapi build-tensorflow build-tensorflow-cpu build-tensorflow-gpu build-web-app clean code-check code-pkg conda-env docker-deps docs help hooks pull-latest tag-latest tests tests-integration tests-unit tox
 SHELL := bash
 .ONESHELL:
 .SHELLFLAGS := -eu -O extglob -o pipefail -c
@@ -481,6 +481,7 @@ $(call generate_full_docker_image_vars,PYTORCH_CPU,CONTAINER_IMAGE_TAG,pytorch-c
 $(call generate_full_docker_image_vars,PYTORCH_GPU,CONTAINER_IMAGE_TAG,pytorch-gpu,)
 $(call generate_full_docker_image_vars,TENSORFLOW2_CPU,CONTAINER_IMAGE_TAG,tensorflow2-cpu,)
 $(call generate_full_docker_image_vars,TENSORFLOW2_GPU,CONTAINER_IMAGE_TAG,tensorflow2-gpu,)
+$(call generate_full_docker_image_vars,WEB_APP,CONTAINER_IMAGE_TAG,web-app,)
 $(call generate_legacy_full_docker_image_vars,MLFLOW_TRACKING1_12_1,CONTAINER_IMAGE_TAG,mlflow-tracking1-12-1)
 $(call generate_legacy_full_docker_image_vars,RESTAPI_PY37,CONTAINER_IMAGE_TAG,restapi-py37)
 $(call generate_legacy_full_docker_image_vars,TENSORFLOW21_CPU,CONTAINER_IMAGE_TAG,tensorflow21-cpu)
@@ -493,7 +494,7 @@ $(call generate_legacy_full_docker_image_vars,TENSORFLOW21_CPU,CONTAINER_IMAGE_T
 beautify: $(BEAUTIFY_SENTINEL)
 
 ## Build all Dioptra Testbed images
-build-all: build-nginx build-mlflow-tracking build-restapi build-pytorch build-tensorflow
+build-all: build-nginx build-mlflow-tracking build-restapi build-web-app build-pytorch build-tensorflow
 
 ## Build the legacy Testbed images
 build-legacy: $(CONTAINER_RESTAPI_PY37_BUILD_SENTINEL) $(CONTAINER_MLFLOW_TRACKING1_12_1_BUILD_SENTINEL) $(CONTAINER_TENSORFLOW21_CPU_BUILD_SENTINEL)
@@ -525,6 +526,9 @@ build-tensorflow-cpu: $(CONTAINER_TENSORFLOW2_CPU_BUILD_SENTINEL)
 ## Build the Tensorflow (GPU) Docker image
 build-tensorflow-gpu: $(CONTAINER_TENSORFLOW2_GPU_BUILD_SENTINEL)
 
+## Build the Web App Docker image
+build-web-app: $(CONTAINER_WEB_APP_BUILD_SENTINEL)
+
 ## Remove temporary files
 clean: ; $(call cleanup)
 
@@ -550,7 +554,7 @@ hooks: $(PRE_COMMIT_HOOKS_SENTINEL)
 pull-latest: ; $(call pull_docker_hub_images,$(DOCKER_HUB_IMAGES_LATEST))
 
 ## Manually set "latest" tag on all Dioptra Testbed images
-tag-latest: $(CONTAINER_NGINX_BUILD_LATEST_SENTINEL) $(CONTAINER_RESTAPI_BUILD_LATEST_SENTINEL) $(CONTAINER_MLFLOW_TRACKING_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_GPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_GPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW21_CPU_BUILD_SENTINEL) $(CONTAINER_TENSORFLOW21_GPU_BUILD_SENTINEL)
+tag-latest: $(CONTAINER_NGINX_BUILD_LATEST_SENTINEL) $(CONTAINER_RESTAPI_BUILD_LATEST_SENTINEL) $(CONTAINER_MLFLOW_TRACKING_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_PYTORCH_GPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_CPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW2_GPU_BUILD_LATEST_SENTINEL) $(CONTAINER_TENSORFLOW21_CPU_BUILD_SENTINEL) $(CONTAINER_TENSORFLOW21_GPU_BUILD_SENTINEL) $(CONTAINER_WEB_APP_BUILD_LATEST_SENTINEL)
 
 ## Run all tests
 tests: tests-unit tests-integration
@@ -650,6 +654,7 @@ $(call generate_full_docker_image_recipe,PYTORCH_CPU,CODE_PACKAGING_SENTINEL,CON
 $(call generate_full_docker_image_recipe,PYTORCH_GPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
 $(call generate_full_docker_image_recipe,TENSORFLOW2_CPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
 $(call generate_full_docker_image_recipe,TENSORFLOW2_GPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
+$(call generate_full_docker_image_recipe,WEB_APP,,CONTAINER_IMAGE_TAG)
 $(call generate_legacy_full_docker_image_recipe,MLFLOW_TRACKING1_12_1,,CONTAINER_IMAGE_TAG)
 $(call generate_legacy_full_docker_image_recipe,RESTAPI_PY37,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
 $(call generate_legacy_full_docker_image_recipe,TENSORFLOW21_CPU,CODE_PACKAGING_SENTINEL,CONTAINER_IMAGE_TAG)
