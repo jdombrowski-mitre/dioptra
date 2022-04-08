@@ -129,7 +129,7 @@ Next, we need to set the folder permissions to match the user and group ids of t
 .. code-block:: sh
 
    # Prevent access to deployment folders by non-root users
-   chmod 0750 /var/securing-ai
+   chmod 0750 /var/dioptra
 
    # Configure folder owners for compatibility with Docker images
    chown -R 39000:100 /var/dioptra/lab-deployment/mlflow-tracking

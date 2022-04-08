@@ -93,7 +93,7 @@ Building Development Docker Images
 
    .. code-block:: sh
 
-      sed -E -e 's/(securing-ai\/.*):latest/\1:dev/g' -i .backup docker-compose.yml
+      sed -E -e 's/(dioptra\/.*):latest/\1:dev/g' -i .backup docker-compose.yml
 
    **NOTE**: To revert the changes made to the configuration file use the command:
 

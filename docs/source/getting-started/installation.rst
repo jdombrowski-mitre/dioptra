@@ -22,7 +22,7 @@ Installation Guide
 
 .. include:: /_glossary_note.rst
 
-This installation guide is divided into three parts, with the first part covering system requirements, the second part covering how to install the ``mitre-securing-ai`` Python package, and the third part covering how to setup a personal computer for test-driving the Dioptra architecture locally.
+This installation guide is divided into three parts, with the first part covering system requirements, the second part covering how to install the ``dioptra`` Python package, and the third part covering how to setup a personal computer for test-driving the Dioptra architecture locally.
 General instructions on how to deploy the Testbed in an on-premises server can be found in the sections under **Deployment Guide**.
 
 Package Installation
@@ -31,7 +31,7 @@ Package Installation
 Requirements
 ^^^^^^^^^^^^
 
-The minimum requirements for installing the ``mitre-securing-ai`` Python package on your host device are as follows:
+The minimum requirements for installing the ``dioptra`` Python package on your host device are as follows:
 
 - CPU: An x86-64 processor
 - RAM: 4GB or higher

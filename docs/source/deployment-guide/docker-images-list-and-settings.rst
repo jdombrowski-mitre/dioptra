@@ -72,7 +72,7 @@ Command
 
 .. rubric:: Options
 
---conda-env               Conda environment (default: ``'mitre-securing-ai'``)
+--conda-env               Conda environment (default: ``'dioptra'``)
 --backend-store-uri       |URI| to which to persist experiment and run data. Acceptable |URI|\s are SQLAlchemy-compatible database connection strings (e.g. 'sqlite:///path/to/file.db') or local filesystem |URI|\s (e.g. ``'file:///absolute/path/to/directory'``). (default: ``'sqlite:////work/mlruns/mlflow-tracking.db'``)
 --default-artifact-root   Local or S3 |URI| to store artifacts, for new experiments. Note that this flag does not impact already-created experiments. Default: Within file store, if a ``file:/`` |URI| is provided. If a sql backend is used, then this option is required. (default: ``'file:///work/artifacts'``)
 --gunicorn-opts           Additional command line options forwarded to gunicorn processes. (no default)
@@ -131,7 +131,7 @@ Command
 
 --app-module       Application module (default: ``'wsgi:app'``)
 --backend          Server backend (default: ``'gunicorn'``)
---conda-env        Conda environment (default: ``'mitre-securing-ai'``)
+--conda-env        Conda environment (default: ``'dioptra'``)
 --gunicorn-module  Python module used to start Gunicorn WSGI server (default: ``'dioptra.restapi.cli.gunicorn'``)
 --upgrade-db       Upgrade the database schema
 
@@ -186,7 +186,7 @@ Queues to watch
 
 .. rubric:: Options
 
---conda-env         Conda environment (default: ``'mitre-securing-ai'``)
+--conda-env         Conda environment (default: ``'dioptra'``)
 --results-ttl       Job results will be kept for this number of seconds (default: ``'500'``)
 --rq-worker-module  Python module used to start the RQ Worker (default: ``'dioptra.rq.cli.rq'``)
 

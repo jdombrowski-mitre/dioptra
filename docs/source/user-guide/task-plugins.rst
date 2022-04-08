@@ -93,7 +93,7 @@ PyPlugs and the Task Plugin Registry
 
 .. note::
 
-   The forked PyPlugs_ package in the ``mitre-securing-ai`` package namespace is, in essence, a sophisticated wrapper for the :py:func:`importlib.import_module` function in the standard library.
+   The forked PyPlugs_ package in the ``dioptra`` package namespace is, in essence, a sophisticated wrapper for the :py:func:`importlib.import_module` function in the standard library.
    Most of the code in PyPlugs_ is dedicated to managing the plugin registry and catching errors.
    Please see the following article for an explanation of how this type of plugin registry works: https://realpython.com/python-import/#example-a-package-of-plugins.
 
