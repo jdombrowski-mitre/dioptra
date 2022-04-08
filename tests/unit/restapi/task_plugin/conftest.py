@@ -22,12 +22,12 @@ import pytest
 from flask import Flask
 from werkzeug.datastructures import FileStorage
 
-from mitre.securingai.restapi.models import (
+from dioptra.restapi.models import (
     TaskPlugin,
     TaskPluginUploadForm,
     TaskPluginUploadFormData,
 )
-from mitre.securingai.restapi.task_plugin.interface import TaskPluginInterface
+from dioptra.restapi.task_plugin.interface import TaskPluginInterface
 
 
 @pytest.fixture

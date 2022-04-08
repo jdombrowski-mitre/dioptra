@@ -24,12 +24,10 @@ from _pytest.monkeypatch import MonkeyPatch
 from flask import Flask
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai.restapi.models import TaskPlugin
-from mitre.securingai.restapi.shared.s3.service import S3Service
-from mitre.securingai.restapi.task_plugin.routes import (
-    BASE_ROUTE as TASK_PLUGIN_BASE_ROUTE,
-)
-from mitre.securingai.restapi.task_plugin.service import TaskPluginService
+from dioptra.restapi.models import TaskPlugin
+from dioptra.restapi.shared.s3.service import S3Service
+from dioptra.restapi.task_plugin.routes import BASE_ROUTE as TASK_PLUGIN_BASE_ROUTE
+from dioptra.restapi.task_plugin.service import TaskPluginService
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 

@@ -23,7 +23,7 @@ from _pytest.monkeypatch import MonkeyPatch
 from freezegun import freeze_time
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai.rq.tasks import run_mlflow_task
+from dioptra.rq.tasks import run_mlflow_task
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 

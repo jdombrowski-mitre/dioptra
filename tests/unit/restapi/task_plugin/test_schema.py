@@ -24,8 +24,8 @@ from flask import Flask
 from structlog.stdlib import BoundLogger
 from werkzeug.datastructures import FileStorage
 
-from mitre.securingai.restapi.models import TaskPlugin, TaskPluginUploadForm
-from mitre.securingai.restapi.task_plugin.schema import (
+from dioptra.restapi.models import TaskPlugin, TaskPluginUploadForm
+from dioptra.restapi.task_plugin.schema import (
     TaskPluginSchema,
     TaskPluginUploadFormSchema,
 )
