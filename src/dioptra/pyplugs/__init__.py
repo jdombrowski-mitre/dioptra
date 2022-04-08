@@ -56,7 +56,7 @@ from datetime import date as _date
 
 from ._plugins import *  # noqa
 
-__url__ = "https://secure-ai.pages.mitre.org/securing-ai-lab-components"
+__url__ = "https://pages.nist.gov/dioptra"
 
 
 # Authors/maintainers of Pyplugs
