@@ -17,15 +17,15 @@
 # https://creativecommons.org/licenses/by/4.0/legalcode
 
 # Created by argbash-init v2.8.1
-# ARG_OPTIONAL_SINGLE([backend],[],[[securingai|local] Execution backend for MLFlow],[securingai])
+# ARG_OPTIONAL_SINGLE([backend],[],[[dioptra|local] Execution backend for MLFlow],[dioptra])
 # ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[base])
 # ARG_OPTIONAL_SINGLE([experiment-id],[],[ID of the experiment under which to launch the run],[])
 # ARG_OPTIONAL_SINGLE([entry-point],[],[MLproject entry point to invoke],[main])
-# ARG_OPTIONAL_SINGLE([mlflow-run-module],[],[Python module used to invoke 'mlflow run'],[mitre.securingai.rq.cli.mlflow])
+# ARG_OPTIONAL_SINGLE([mlflow-run-module],[],[Python module used to invoke 'mlflow run'],[dioptra.rq.cli.mlflow])
 # ARG_OPTIONAL_SINGLE([s3-workflow],[],[S3 URI to a tarball or zip archive containing scripts and a MLproject file defining a workflow],[])
-# ARG_USE_ENV([AI_PLUGIN_DIR],[],[Directory in worker container for syncing the builtin plugins])
-# ARG_USE_ENV([AI_PLUGINS_S3_URI],[],[S3 URI to the directory containing the builtin plugins])
-# ARG_USE_ENV([AI_CUSTOM_PLUGINS_S3_URI],[],[S3 URI to the directory containing the custom plugins])
+# ARG_USE_ENV([DIOPTRA_PLUGIN_DIR],[],[Directory in worker container for syncing the builtin plugins])
+# ARG_USE_ENV([DIOPTRA_PLUGINS_S3_URI],[],[S3 URI to the directory containing the builtin plugins])
+# ARG_USE_ENV([DIOPTRA_CUSTOM_PLUGINS_S3_URI],[],[S3 URI to the directory containing the custom plugins])
 # ARG_USE_ENV([MLFLOW_S3_ENDPOINT_URL],[],[The S3 endpoint URL])
 # ARG_LEFTOVERS([Entry point keyword arguments (optional)])
 # ARG_DEFAULTS_POS()
@@ -63,11 +63,11 @@ begins_with_short_option()
 _positionals=()
 _arg_leftovers=()
 # THE DEFAULTS INITIALIZATION - OPTIONALS
-_arg_backend="securingai"
+_arg_backend="dioptra"
 _arg_conda_env="base"
 _arg_experiment_id=
 _arg_entry_point="main"
-_arg_mlflow_run_module="mitre.securingai.rq.cli.mlflow"
+_arg_mlflow_run_module="dioptra.rq.cli.mlflow"
 _arg_s3_workflow=
 
 
@@ -77,17 +77,17 @@ print_help()
 "
   printf 'Usage: %s [--backend <arg>] [--conda-env <arg>] [--experiment-id <arg>] [--entry-point <arg>] [--mlflow-run-module <arg>] [--s3-workflow <arg>] [-h|--help] ... \n' "$0"
   printf '\t%s\n' "... : Entry point keyword arguments (optional)"
-  printf '\t%s\n' "--backend: [securingai|local] Execution backend for MLFlow (default: 'securingai')"
+  printf '\t%s\n' "--backend: [dioptra|local] Execution backend for MLFlow (default: 'dioptra')"
   printf '\t%s\n' "--conda-env: Conda environment (default: 'base')"
   printf '\t%s\n' "--experiment-id: ID of the experiment under which to launch the run (no default)"
   printf '\t%s\n' "--entry-point: MLproject entry point to invoke (default: 'main')"
-  printf '\t%s\n' "--mlflow-run-module: Python module used to invoke 'mlflow run' (default: 'mitre.securingai.rq.cli.mlflow')"
+  printf '\t%s\n' "--mlflow-run-module: Python module used to invoke 'mlflow run' (default: 'dioptra.rq.cli.mlflow')"
   printf '\t%s\n' "--s3-workflow: S3 URI to a tarball or zip archive containing scripts and a MLproject file defining a workflow (no default)"
   printf '\t%s\n' "-h, --help: Prints help"
   printf '\nEnvironment variables that are supported:\n'
-  printf '\t%s\n' "AI_PLUGIN_DIR: Directory in worker container for syncing the builtin plugins."
-  printf '\t%s\n' "AI_PLUGINS_S3_URI: S3 URI to the directory containing the builtin plugins."
-  printf '\t%s\n' "AI_CUSTOM_PLUGINS_S3_URI: S3 URI to the directory containing the custom plugins."
+  printf '\t%s\n' "DIOPTRA_PLUGIN_DIR: Directory in worker container for syncing the builtin plugins."
+  printf '\t%s\n' "DIOPTRA_PLUGINS_S3_URI: S3 URI to the directory containing the builtin plugins."
+  printf '\t%s\n' "DIOPTRA_CUSTOM_PLUGINS_S3_URI: S3 URI to the directory containing the custom plugins."
   printf '\t%s\n' "MLFLOW_S3_ENDPOINT_URL: The S3 endpoint URL."
 
 }
@@ -201,9 +201,9 @@ set -euo pipefail
 # Global parameters
 ###########################################################################################
 
-readonly ai_plugin_dir="${AI_PLUGIN_DIR-}"
-readonly ai_plugins_s3_uri="${AI_PLUGINS_S3_URI-}"
-readonly ai_custom_plugins_s3_uri="${AI_CUSTOM_PLUGINS_S3_URI-}"
+readonly dioptra_plugin_dir="${DIOPTRA_PLUGIN_DIR-}"
+readonly dioptra_plugins_s3_uri="${DIOPTRA_PLUGINS_S3_URI-}"
+readonly dioptra_custom_plugins_s3_uri="${DIOPTRA_CUSTOM_PLUGINS_S3_URI-}"
 readonly conda_dir="${CONDA_DIR}"
 readonly conda_env="${_arg_conda_env}"
 readonly entry_point_kwargs="${_arg_leftovers[*]}"
@@ -243,9 +243,9 @@ validate_mlflow_inputs() {
   fi
 
   case ${mlflow_backend} in
-    securingai | local) ;;
+    dioptra | local) ;;
     *)
-      echo "${logname}: ERROR - --backend option must be \"securingai\" or \"local\"" 1>&2
+      echo "${logname}: ERROR - --backend option must be \"dioptra\" or \"local\"" 1>&2
       exit 1
       ;;
   esac
@@ -255,7 +255,7 @@ validate_mlflow_inputs() {
 # Validate existence of builtin plugins bucket
 #
 # Globals:
-#   ai_plugins_s3_uri
+#   dioptra_plugins_s3_uri
 # Arguments:
 #   None
 # Returns:
@@ -263,8 +263,8 @@ validate_mlflow_inputs() {
 ###########################################################################################
 
 validate_builtin_plugins_s3_uri() {
-  local scheme=$(/usr/local/bin/parse-uri.sh --scheme ${ai_plugins_s3_uri})
-  local bucket=$(/usr/local/bin/parse-uri.sh --authority ${ai_plugins_s3_uri})
+  local scheme=$(/usr/local/bin/parse-uri.sh --scheme ${dioptra_plugins_s3_uri})
+  local bucket=$(/usr/local/bin/parse-uri.sh --authority ${dioptra_plugins_s3_uri})
 
   if [[ ${scheme} != s3 ]]; then
     echo "${logname}: ERROR - URI for builtin plugins does not use the s3 protocol" 1>&2
@@ -281,7 +281,7 @@ validate_builtin_plugins_s3_uri() {
 # Validate existence of custom plugins bucket
 #
 # Globals:
-#   ai_custom_plugins_s3_uri
+#   dioptra_custom_plugins_s3_uri
 # Arguments:
 #   None
 # Returns:
@@ -289,8 +289,8 @@ validate_builtin_plugins_s3_uri() {
 ###########################################################################################
 
 validate_custom_plugins_s3_uri() {
-  local scheme=$(/usr/local/bin/parse-uri.sh --scheme ${ai_custom_plugins_s3_uri})
-  local bucket=$(/usr/local/bin/parse-uri.sh --authority ${ai_custom_plugins_s3_uri})
+  local scheme=$(/usr/local/bin/parse-uri.sh --scheme ${dioptra_custom_plugins_s3_uri})
+  local bucket=$(/usr/local/bin/parse-uri.sh --authority ${dioptra_custom_plugins_s3_uri})
 
   if [[ ${scheme} != s3 ]]; then
     echo "${logname}: ERROR - URI for custom plugins does not use the s3 protocol" 1>&2
@@ -380,8 +380,8 @@ download_workflow() {
 # Synchronize builtin plugins from S3 storage
 #
 # Globals:
-#   ai_plugin_dir
-#   ai_plugins_s3_uri
+#   dioptra_plugin_dir
+#   dioptra_plugins_s3_uri
 #   mlflow_s3_endpoint_url
 # Arguments:
 #   None
@@ -390,8 +390,8 @@ download_workflow() {
 ###########################################################################################
 
 sync_builtin_plugins() {
-  local src="${ai_plugins_s3_uri}"
-  local dest="${ai_plugin_dir}/securingai_builtins"
+  local src="${dioptra_plugins_s3_uri}"
+  local dest="${dioptra_plugin_dir}/securingdioptra_builtins"
 
   if [[ ! -z ${mlflow_s3_endpoint_url} && -f /usr/local/bin/s3-sync.sh ]]; then
     /usr/local/bin/s3-sync.sh --endpoint-url ${mlflow_s3_endpoint_url} --delete ${src} ${dest}
@@ -407,8 +407,8 @@ sync_builtin_plugins() {
 # Synchronize custom plugins from S3 storage
 #
 # Globals:
-#   ai_plugin_dir
-#   ai_custom_plugins_s3_uri
+#   dioptra_plugin_dir
+#   dioptra_custom_plugins_s3_uri
 #   mlflow_s3_endpoint_url
 # Arguments:
 #   None
@@ -417,8 +417,8 @@ sync_builtin_plugins() {
 ###########################################################################################
 
 sync_custom_plugins() {
-  local src="${ai_custom_plugins_s3_uri}"
-  local dest="${ai_plugin_dir}/securingai_custom"
+  local src="${dioptra_custom_plugins_s3_uri}"
+  local dest="${dioptra_plugin_dir}/securingdioptra_custom"
 
   if [[ ! -z ${mlflow_s3_endpoint_url} && -f /usr/local/bin/s3-sync.sh ]]; then
     /usr/local/bin/s3-sync.sh --endpoint-url ${mlflow_s3_endpoint_url} --delete ${src} ${dest}

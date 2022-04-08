@@ -19,8 +19,8 @@
 # Created by argbash-init v2.8.1
 # ARG_OPTIONAL_SINGLE([app-module],[],[Application module],[wsgi:app])
 # ARG_OPTIONAL_SINGLE([backend],[],[Server backend],[gunicorn])
-# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[mitre-securing-ai])
-# ARG_OPTIONAL_SINGLE([gunicorn-module],[],[Python module used to start Gunicorn WSGI server],[mitre.securingai.restapi.cli.gunicorn])
+# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[dioptra])
+# ARG_OPTIONAL_SINGLE([gunicorn-module],[],[Python module used to start Gunicorn WSGI server],[dioptra.restapi.cli.gunicorn])
 # ARG_OPTIONAL_ACTION([upgrade-db],[],[Upgrade the database schema],[upgrade_database])
 # ARG_DEFAULTS_POS()
 # ARGBASH_SET_INDENT([  ])
@@ -51,8 +51,8 @@ begins_with_short_option()
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_app_module="wsgi:app"
 _arg_backend="gunicorn"
-_arg_conda_env="mitre-securing-ai"
-_arg_gunicorn_module="mitre.securingai.restapi.cli.gunicorn"
+_arg_conda_env="dioptra"
+_arg_gunicorn_module="dioptra.restapi.cli.gunicorn"
 
 
 print_help()
@@ -62,8 +62,8 @@ print_help()
   printf 'Usage: %s [--app-module <arg>] [--backend <arg>] [--conda-env <arg>] [--gunicorn-module <arg>] [--upgrade-db] [-h|--help]\n' "$0"
   printf '\t%s\n' "--app-module: Application module (default: 'wsgi:app')"
   printf '\t%s\n' "--backend: Server backend (default: 'gunicorn')"
-  printf '\t%s\n' "--conda-env: Conda environment (default: 'mitre-securing-ai')"
-  printf '\t%s\n' "--gunicorn-module: Python module used to start Gunicorn WSGI server (default: 'mitre.securingai.restapi.cli.gunicorn')"
+  printf '\t%s\n' "--conda-env: Conda environment (default: 'dioptra')"
+  printf '\t%s\n' "--gunicorn-module: Python module used to start Gunicorn WSGI server (default: 'dioptra.restapi.cli.gunicorn')"
   printf '\t%s\n' "--upgrade-db: Upgrade the database schema"
   printf '\t%s\n' "-h, --help: Prints help"
 }
@@ -140,7 +140,7 @@ set -euo pipefail
 # Global parameters
 ###########################################################################################
 
-readonly ai_workdir="${AI_WORKDIR}"
+readonly dioptra_workdir="${DIOPTRA_WORKDIR}"
 readonly conda_dir="${CONDA_DIR}"
 readonly gunicorn_module="${_arg_gunicorn_module}"
 readonly logname="Container Entry Point"
@@ -175,7 +175,7 @@ secure_container() {
 # Upgrade the Securing AI database
 #
 # Globals:
-#   ai_workdir
+#   dioptra_workdir
 #   conda_dir
 #   conda_env
 #   logname
@@ -193,15 +193,15 @@ upgrade_database() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
-  flask db upgrade -d ${ai_workdir}/migrations"
+  cd ${dioptra_workdir} &&\
+  flask db upgrade -d ${dioptra_workdir}/migrations"
 }
 
 ###########################################################################################
 # Start gunicorn server
 #
 # Globals:
-#   ai_workdir
+#   dioptra_workdir
 #   app_module
 #   conda_dir
 #   conda_env
@@ -219,7 +219,7 @@ start_gunicorn() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
+  cd ${dioptra_workdir} &&\
   python -m ${gunicorn_module} -c /etc/gunicorn/gunicorn.conf.py ${app_module}"
 }
 

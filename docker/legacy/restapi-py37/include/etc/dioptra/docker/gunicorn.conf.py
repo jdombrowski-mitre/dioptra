@@ -16,7 +16,7 @@
 # https://creativecommons.org/licenses/by/4.0/legalcode
 chdir = "/work"
 bind = "0.0.0.0:5000"
-proc_name = "securingai"
+proc_name = "dioptra"
 
 # configure workers
 workers = 7

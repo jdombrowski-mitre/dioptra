@@ -17,9 +17,9 @@
 # https://creativecommons.org/licenses/by/4.0/legalcode
 
 # Created by argbash-init v2.8.1
-# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[mitre-securing-ai])
+# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[dioptra])
 # ARG_OPTIONAL_SINGLE([results-ttl],[],[Job results will be kept for this number of seconds],[500])
-# ARG_OPTIONAL_SINGLE([rq-worker-module],[],[Python module used to start the RQ Worker],[mitre.securingai.rq.cli.rq])
+# ARG_OPTIONAL_SINGLE([rq-worker-module],[],[Python module used to start the RQ Worker],[dioptra.rq.cli.rq])
 # ARG_LEFTOVERS([Queues to watch])
 # ARG_DEFAULTS_POS()
 # ARGBASH_SET_INDENT([  ])
@@ -51,9 +51,9 @@ begins_with_short_option()
 _positionals=()
 _arg_leftovers=()
 # THE DEFAULTS INITIALIZATION - OPTIONALS
-_arg_conda_env="mitre-securing-ai"
+_arg_conda_env="dioptra"
 _arg_results_ttl="500"
-_arg_rq_worker_module="mitre.securingai.rq.cli.rq"
+_arg_rq_worker_module="dioptra.rq.cli.rq"
 
 
 print_help()
@@ -62,9 +62,9 @@ print_help()
 "
   printf 'Usage: %s [--conda-env <arg>] [--results-ttl <arg>] [--rq-worker-module <arg>] [-h|--help] ... \n' "$0"
   printf '\t%s\n' "... : Queues to watch"
-  printf '\t%s\n' "--conda-env: Conda environment (default: 'mitre-securing-ai')"
+  printf '\t%s\n' "--conda-env: Conda environment (default: 'dioptra')"
   printf '\t%s\n' "--results-ttl: Job results will be kept for this number of seconds (default: '500')"
-  printf '\t%s\n' "--rq-worker-module: Python module used to start the RQ Worker (default: 'mitre.securingai.rq.cli.rq')"
+  printf '\t%s\n' "--rq-worker-module: Python module used to start the RQ Worker (default: 'dioptra.rq.cli.rq')"
   printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -153,7 +153,7 @@ set -euo pipefail
 # Global parameters
 ###########################################################################################
 
-readonly ai_workdir="${AI_WORKDIR}"
+readonly dioptra_workdir="${DIOPTRA_WORKDIR}"
 readonly conda_dir="${CONDA_DIR}"
 readonly conda_env="${_arg_conda_env}"
 readonly job_queues="${_arg_leftovers[*]}"
@@ -186,7 +186,7 @@ secure_container() {
 # Start Redis Queue Worker
 #
 # Globals:
-#   ai_workdir
+#   dioptra_workdir
 #   conda_dir
 #   conda_env
 #   job_queues
@@ -208,7 +208,7 @@ start_rq() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
+  cd ${dioptra_workdir} &&\
   python -m ${rq_worker_module} worker\
   --url ${rq_redis_uri}\
   --results-ttl ${rq_results_ttl}\
