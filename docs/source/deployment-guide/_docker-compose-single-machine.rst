@@ -179,8 +179,8 @@
          timeout: 10s
          retries: 3
        environment:
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -204,9 +204,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -237,9 +237,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -271,9 +271,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -301,9 +301,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -331,9 +331,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -360,9 +360,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -392,9 +392,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000
@@ -425,9 +425,9 @@
          - mlflow-tracking
          - redis
        environment:
-         AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-         AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-         AI_RESTAPI_ENV: prod
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+         DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
          AWS_SECRET_ACCESS_KEY: # Replace with desired password
          MLFLOW_TRACKING_URI: http://mlflow-tracking:5000

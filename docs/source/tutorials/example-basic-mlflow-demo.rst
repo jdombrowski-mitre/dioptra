@@ -83,8 +83,8 @@ Below we import the necessary Python modules and ensure the proper environment v
         else f"http://localhost:{RESTAPI_PORT}"
     )
     
-    # Override the AI_RESTAPI_URI variable, used to connect to RESTful API service
-    os.environ["AI_RESTAPI_URI"] = RESTAPI_ADDRESS
+    # Override the DIOPTRA_RESTAPI_URI variable, used to connect to RESTful API service
+    os.environ["DIOPTRA_RESTAPI_URI"] = RESTAPI_ADDRESS
     
     # Default address for accessing the MLFlow Tracking server
     MLFLOW_TRACKING_URI = (
@@ -128,7 +128,7 @@ For convenience, the ``Makefile`` provides a rule for creating the archive file 
     make workflows
 
 To connect with the endpoint, we will use a client class defined in the ``utils.py`` file that is able to connect with the Testbed :term:`REST` :term:`API` using the :term:`HTTP` protocol.
-We connect using the client below, which uses the environment variable ``AI_RESTAPI_URI`` to figure out how to connect to the Testbed :term:`REST` :term:`API`,
+We connect using the client below, which uses the environment variable ``DIOPTRA_RESTAPI_URI`` to figure out how to connect to the Testbed :term:`REST` :term:`API`,
 
 .. code:: python3
 

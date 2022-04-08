@@ -163,8 +163,8 @@ The following is a short example based on the `train` entry point from the ``MLp
    import os
 
    import click
-   from mitre.securingai.sdk.utilities.contexts import plugin_dirs
-   from mitre.securingai.sdk.utilities.logging import (
+   from dioptra.sdk.utilities.contexts import plugin_dirs
+   from dioptra.sdk.utilities.logging import (
        StderrLogStream,
        StdoutLogStream,
        attach_stdout_stream_handler,
@@ -196,8 +196,8 @@ The following is a short example based on the `train` entry point from the ``MLp
 
 
    if __name__ == "__main__":
-       log_level = os.getenv("AI_JOB_LOG_LEVEL", default="INFO")
-       as_json = True if os.getenv("AI_JOB_LOG_AS_JSON") else False
+       log_level = os.getenv("DIOPTRA_JOB_LOG_LEVEL", default="INFO")
+       as_json = True if os.getenv("DIOPTRA_JOB_LOG_AS_JSON") else False
    
        clear_logger_handlers(get_prefect_logger())
        attach_stdout_stream_handler(as_json)
@@ -262,7 +262,7 @@ The following example shows the beginnings of a :py:class:`~prefect.Flow` contex
 .. code-block:: python
 
    from prefect import Flow, Parameter
-   from mitre.securingai import pyplugs
+   from dioptra import pyplugs
 
    _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
 

@@ -43,7 +43,7 @@ Let's return to the :ref:`final example from the previous guide <entry-points-pr
 .. code-block::
 
    from prefect import Flow, Parameter
-   from mitre.securingai import pyplugs
+   from dioptra import pyplugs
 
    with Flow("Image Resizer") as flow:
        data_dir, image_size = Parameter("data_dir"), Parameter("image_size")
@@ -117,7 +117,7 @@ The example below illustrates how to apply this decorator to a Python function s
 
    from numpy.random._generator import Generator as RNGenerator
 
-   from mitre.securingai import pyplugs
+   from dioptra import pyplugs
 
 
    @pyplugs.register
@@ -129,16 +129,16 @@ Discovery
 
 The directory where the Testbed Worker syncs the latest copies of the plugins from S3 must be added to Python's system path so that PyPlugs can search for them.
 However, modifying the Python system path must be done with care to ensure that you will still be able to import your other installed packages and avoid creating dependency conflicts.
-For this reason, the Testbed :term:`SDK` provides the :py:func:`~mitre.securingai.sdk.plugin_dirs` function, which modifies the Python system path within a temporary context, see the example below,
+For this reason, the Testbed :term:`SDK` provides the :py:func:`~dioptra.sdk.plugin_dirs` function, which modifies the Python system path within a temporary context, see the example below,
 
 .. code-block::
 
-   from mitre.securingai.sdk.utilities.contexts import plugin_dirs
+   from dioptra.sdk.utilities.contexts import plugin_dirs
 
    with plugin_dirs():
        _ = entry_point_script()
 
-:py:func:`~mitre.securingai.sdk.plugin_dirs` determines the paths it needs to add to the Python system path by inspecting the ``AI_PLUGIN_DIR`` environment variable, which is the same variable used by the Testbed Worker when it downloads the latest copies of the task plugins from S3.
+:py:func:`~dioptra.sdk.plugin_dirs` determines the paths it needs to add to the Python system path by inspecting the ``DIOPTRA_PLUGIN_DIR`` environment variable, which is the same variable used by the Testbed Worker when it downloads the latest copies of the task plugins from S3.
 
 .. Links
 

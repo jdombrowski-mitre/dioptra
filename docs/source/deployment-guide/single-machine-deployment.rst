@@ -111,7 +111,7 @@ We placed these folders for our deployment under the directory ``/var/securing-a
    ├── redis
    │   └── appendonly.aof
    └── restapi
-       └── securingai.db
+       └── dioptra.db
 
 For the purposes of this guide, we are going to re-use the same folder structure for our deployment.
 We create them as follows,

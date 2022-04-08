@@ -92,7 +92,7 @@ Once this is done, the task can be declared as follows:
 
 .. code-block::
 
-   from mitre.securingai import pyplugs
+   from dioptra import pyplugs
 
    @pyplugs.register
    def add_values(x, y):
@@ -122,7 +122,7 @@ Note that we assumed these new tasks have been saved in a module named ``ops.py`
 
 .. code-block:: python
 
-   from mitre.securingai import pyplugs
+   from dioptra import pyplugs
    ...
    def custom_flow() -> Flow:
        ...

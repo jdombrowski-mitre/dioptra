@@ -35,7 +35,7 @@ Initial Configuration
 Configuring the task plugins system is a two part process,
 
 #. Create an S3 bucket for the plugins and sync them to it
-#. Set the ``AI_PLUGINS_S3_URI`` variable for all the Testbed Workers to match the location of the freshly synchronized plugins.
+#. Set the ``DIOPTRA_PLUGINS_S3_URI`` variable for all the Testbed Workers to match the location of the freshly synchronized plugins.
 
 For the purposes of this guide, let's assume the following,
 
@@ -65,7 +65,7 @@ We now use a `securing-ai/restapi` container to create the `plugins` bucket and 
    # Teardown
    docker-compose down
 
-To set the ``AI_PLUGINS_S3_URI`` environment variable for the Testbed Workers, open your ``docker-compose.yml`` file and add ``AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins`` to each Worker's ``environment:`` block,
+To set the ``DIOPTRA_PLUGINS_S3_URI`` environment variable for the Testbed Workers, open your ``docker-compose.yml`` file and add ``DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins`` to each Worker's ``environment:`` block,
 
 .. code-block:: yaml
 
@@ -73,9 +73,9 @@ To set the ``AI_PLUGINS_S3_URI`` environment variable for the Testbed Workers, o
      image: securing-ai/tensorflow2-cpu:latest
      # ...Truncated...
      environment:
-       AI_PLUGINS_S3_URI: s3://plugins/securingai_builtins
-       AI_RESTAPI_DATABASE_URI: sqlite:////work/data/securingai.db
-       AI_RESTAPI_ENV: prod
+       DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+       DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
+       DIOPTRA_RESTAPI_ENV: prod
      # ...Truncated...
 
 
