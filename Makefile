@@ -46,8 +46,8 @@ endif
 COMMA := ,
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = securing-ai-testbed
-PROJECT_PREFIX = securing-ai
+PROJECT_NAME = dioptra
+PROJECT_PREFIX = dioptra
 PROJECT_BUILD_DIR = build
 PROJECT_DOCS_DIR = docs
 PROJECT_DOCKER_DIR = docker
@@ -56,8 +56,7 @@ PROJECT_DOCKER_CONDA_ENV_DIR = $(PROJECT_DOCKER_SRC_DIR)/conda-env
 PROJECT_DOCKER_SHELLSCRIPTS_DIR = $(PROJECT_DOCKER_SRC_DIR)/shellscripts
 PROJECT_SRC_DIR = src
 PROJECT_SRC_MIGRATIONS_DIR = $(PROJECT_SRC_DIR)/migrations
-PROJECT_SRC_MITRE_DIR = $(PROJECT_SRC_DIR)/mitre
-PROJECT_SRC_SECURINGAI_DIR = $(PROJECT_SRC_MITRE_DIR)/securingai
+PROJECT_SRC_DIOPTRA_DIR = $(PROJECT_SRC_DIR)/dioptra
 PROJECT_TASK_PLUGINS_DIR = task-plugins
 PROJECT_TESTS_DIR = tests
 
@@ -72,7 +71,7 @@ ISORT = isort
 MV = mv
 MYPY = mypy
 PRE_COMMIT = pre-commit
-PY ?= python3
+PY ?= python
 PYTEST = $(PY) -m pytest
 RM = rm
 SPHINX_BUILD = sphinx-build
@@ -85,24 +84,24 @@ SETUP_CFG_FILE = setup.cfg
 TOX_CONFIG_FILE = tox.ini
 VERSION_VARS_FILE = version-vars.mk
 
-CODE_PKG_NAME = mitre-securing-ai
+CODE_PKG_NAME = dioptra
 CODE_BUILD_DIR = dist
 CODE_PIP_CACHE_DIR = .pip-cache
 CODE_INTEGRATION_TESTS_DIR = $(PROJECT_TESTS_DIR)/integration
 CODE_SECURINGAI_BUILTINS_DIR = $(PROJECT_TASK_PLUGINS_DIR)/securingai_builtins
 CODE_UNIT_TESTS_DIR = $(PROJECT_TESTS_DIR)/unit
-CODE_SRC_FILES := $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/generics_plugins/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/generics_plugins/*/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/mlflow_plugins/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/pyplugs/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/restapi/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/restapi/*/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/restapi/*/*/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/rq/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/rq/*/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/sdk/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/sdk/*/*.py)
-CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIR)/mitre/securingai/sdk/*/*/*.py)
+CODE_SRC_FILES := $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/generics_plugins/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/generics_plugins/*/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/mlflow_plugins/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/pyplugs/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/restapi/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/restapi/*/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/restapi/*/*/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/rq/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/rq/*/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/sdk/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/sdk/*/*.py)
+CODE_SRC_FILES += $(wildcard $(PROJECT_SRC_DIOPTRA_DIR)/sdk/*/*/*.py)
 CODE_DB_MIGRATIONS_FILES :=\
     $(PROJECT_SRC_MIGRATIONS_DIR)/alembic.ini\
     $(PROJECT_SRC_MIGRATIONS_DIR)/env.py\
@@ -576,8 +575,8 @@ $(PROJECT_BUILD_DIR): ; $(call make_subdirectory,$@)
 $(CODE_PIP_CACHE_DIR): ; $(call make_subdirectory,$@)
 
 $(BEAUTIFY_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
-	$(call run_python_black,$(PROJECT_SRC_SECURINGAI_DIR) $(PROJECT_TESTS_DIR) $(CODE_SECURINGAI_BUILTINS_DIR))
-	$(call run_isort,$(PROJECT_SRC_SECURINGAI_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
+	$(call run_python_black,$(PROJECT_SRC_DIOPTRA_DIR) $(PROJECT_TESTS_DIR) $(CODE_SECURINGAI_BUILTINS_DIR))
+	$(call run_isort,$(PROJECT_SRC_DIOPTRA_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
 	$(call save_sentinel_file,$@)
 
 $(CODE_INTEGRATION_TESTS_SENTINEL): $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
@@ -623,7 +622,7 @@ $(DOCS_SENTINEL): $(DOCS_FILES) $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) | $
 	$(call save_sentinel_file,$@)
 
 $(LINTING_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
-	$(call run_flake8,$(PROJECT_SRC_SECURINGAI_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
+	$(call run_flake8,$(PROJECT_SRC_DIOPTRA_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
 	$(call save_sentinel_file,$@)
 
 $(PRE_COMMIT_HOOKS_SENTINEL): $(PRE_COMMIT_CONFIG_FILE) | $(PROJECT_BUILD_DIR)
@@ -632,7 +631,7 @@ $(PRE_COMMIT_HOOKS_SENTINEL): $(PRE_COMMIT_CONFIG_FILE) | $(PROJECT_BUILD_DIR)
 	$(call save_sentinel_file,$@)
 
 $(TYPE_CHECK_SENTINEL): $(CODE_SRC_FILES) $(CODE_TASK_PLUGINS_FILES) $(CODE_UNIT_TESTS_FILES) $(CODE_INTEGRATION_TESTS_FILES) | $(PROJECT_BUILD_DIR)
-	$(call run_mypy,$(PROJECT_SRC_SECURINGAI_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
+	$(call run_mypy,$(PROJECT_SRC_DIOPTRA_DIR) $(CODE_SECURINGAI_BUILTINS_DIR) $(PROJECT_TESTS_DIR))
 	$(call save_sentinel_file,$@)
 
 $(TOX_UNIT_SENTINEL): $(TOX_CONFIG_FILE) $(CODE_UNIT_TESTS_FILES) | $(PROJECT_BUILD_DIR)
