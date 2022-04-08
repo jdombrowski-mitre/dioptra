@@ -41,11 +41,11 @@ For the purposes of this guide, let's assume the following,
 
 - We want to sync the plugins to an S3 bucket named `plugins`
 - The latest version of the ``securingai_builtins`` task plugins are available at the directory ``/path/to/task-plugins``
-- The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/securing-ai/lab_deployment``
+- The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/dioptra/lab_deployment``
 - We need root access in order to interact with Docker
 
-With these assumptions, we run ``sudo -s`` to become root and navigate to the ``/etc/securing-ai/lab_deployment`` directory.
-We now use a `securing-ai/restapi` container to create the `plugins` bucket and upload the task plugins,
+With these assumptions, we run ``sudo -s`` to become root and navigate to the ``/etc/dioptra/lab_deployment`` directory.
+We now use a `dioptra/restapi` container to create the `plugins` bucket and upload the task plugins,
 
 .. code-block:: sh
 
@@ -70,7 +70,7 @@ To set the ``DIOPTRA_PLUGINS_S3_URI`` environment variable for the Testbed Worke
 .. code-block:: yaml
 
    tfcpu-01:
-     image: securing-ai/tensorflow2-cpu:latest
+     image: dioptra/tensorflow2-cpu:latest
      # ...Truncated...
      environment:
        DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
@@ -87,10 +87,10 @@ Like before, we assume that,
 
 - Our task plugins collection is stored in the folder ``s3://plugins/securingai_builtins``
 - The newer versions of these plugins are in the directory ``/path/to/task-plugins/securingai_builtins``
-- The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/securing-ai/lab_deployment``
+- The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/dioptra/lab_deployment``
 - We need root access in order to interact with Docker
 
-So, just as before, we run ``sudo -s`` to become root, navigate to the ``/etc/securing-ai/lab_deployment``, and perform the task plugins update,
+So, just as before, we run ``sudo -s`` to become root, navigate to the ``/etc/dioptra/lab_deployment``, and perform the task plugins update,
 
 .. code-block:: sh
 
