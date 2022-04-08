@@ -140,8 +140,8 @@ set -euo pipefail
 # Global parameters
 ###########################################################################################
 
-readonly ai_workdir="${AI_WORKDIR}"
 readonly conda_dir="${CONDA_DIR}"
+readonly dioptra_workdir="${DIOPTRA_WORKDIR}"
 readonly gunicorn_module="${_arg_gunicorn_module}"
 readonly logname="Container Entry Point"
 
@@ -175,9 +175,9 @@ secure_container() {
 # Upgrade the Dioptra database
 #
 # Globals:
-#   ai_workdir
 #   conda_dir
 #   conda_env
+#   dioptra_workdir
 #   logname
 # Arguments:
 #   None
@@ -193,18 +193,18 @@ upgrade_database() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
-  flask db upgrade -d ${ai_workdir}/migrations"
+  cd ${dioptra_workdir} &&\
+  flask db upgrade -d ${dioptra_workdir}/migrations"
 }
 
 ###########################################################################################
 # Start gunicorn server
 #
 # Globals:
-#   ai_workdir
 #   app_module
 #   conda_dir
 #   conda_env
+#   dioptra_workdir
 #   gunicorn_module
 #   logname
 # Arguments:
@@ -219,7 +219,7 @@ start_gunicorn() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
+  cd ${dioptra_workdir} &&\
   python -m ${gunicorn_module} -c /etc/gunicorn/gunicorn.conf.py ${app_module}"
 }
 

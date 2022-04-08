@@ -153,9 +153,9 @@ set -euo pipefail
 # Global parameters
 ###########################################################################################
 
-readonly ai_workdir="${AI_WORKDIR}"
 readonly conda_dir="${CONDA_DIR}"
 readonly conda_env="${_arg_conda_env}"
+readonly dioptra_workdir="${DIOPTRA_WORKDIR}"
 readonly job_queues="${_arg_leftovers[*]}"
 readonly logname="Container Entry Point"
 readonly rq_worker_module="${_arg_rq_worker_module}"
@@ -186,9 +186,9 @@ secure_container() {
 # Start Redis Queue Worker
 #
 # Globals:
-#   ai_workdir
 #   conda_dir
 #   conda_env
+#   dioptra_workdir
 #   job_queues
 #   logname
 #   rq_redis_uri
@@ -208,7 +208,7 @@ start_rq() {
   bash -c "\
   source ${conda_dir}/etc/profile.d/conda.sh &&\
   conda activate ${conda_env} &&\
-  cd ${ai_workdir} &&\
+  cd ${dioptra_workdir} &&\
   python -m ${rq_worker_module} worker\
   --url ${rq_redis_uri}\
   --results-ttl ${rq_results_ttl}\
