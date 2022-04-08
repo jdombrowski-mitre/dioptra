@@ -19,11 +19,11 @@
 # m4_ignore(
 echo "This is just a script template, not the script (yet) - pass it to 'argbash' to fix this." >&2
 exit 11 #)Created by argbash-init v2.8.1
-# ARG_OPTIONAL_SINGLE([backend],[],[[securingai|local] Execution backend for MLFlow],[securingai])
+# ARG_OPTIONAL_SINGLE([backend],[],[[dioptra|local] Execution backend for MLFlow],[dioptra])
 # ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[base])
 # ARG_OPTIONAL_SINGLE([experiment-id],[],[ID of the experiment under which to launch the run],[])
 # ARG_OPTIONAL_SINGLE([entry-point],[],[MLproject entry point to invoke],[main])
-# ARG_OPTIONAL_SINGLE([mlflow-run-module],[],[Python module used to invoke 'mlflow run'],[mitre.securingai.rq.cli.mlflow])
+# ARG_OPTIONAL_SINGLE([mlflow-run-module],[],[Python module used to invoke 'mlflow run'],[dioptra.rq.cli.mlflow])
 # ARG_OPTIONAL_SINGLE([s3-workflow],[],[S3 URI to a tarball or zip archive containing scripts and a MLproject file defining a workflow],[])
 # ARG_USE_ENV([AI_PLUGIN_DIR],[],[Directory in worker container for syncing the builtin plugins])
 # ARG_USE_ENV([AI_PLUGINS_S3_URI],[],[S3 URI to the directory containing the builtin plugins])
@@ -85,9 +85,9 @@ validate_mlflow_inputs() {
   fi
 
   case ${mlflow_backend} in
-    securingai | local) ;;
+    dioptra | local) ;;
     *)
-      echo "${logname}: ERROR - --backend option must be \"securingai\" or \"local\"" 1>&2
+      echo "${logname}: ERROR - --backend option must be \"dioptra\" or \"local\"" 1>&2
       exit 1
       ;;
   esac

@@ -21,12 +21,12 @@ echo "This is just a script template, not the script (yet) - pass it to 'argbash
 exit 11 #)Created by argbash-init v2.8.1
 # ARG_OPTIONAL_SINGLE([app-module],[],[Application module],[wsgi:app])
 # ARG_OPTIONAL_SINGLE([backend],[],[Server backend],[gunicorn])
-# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[mitre-securing-ai])
-# ARG_OPTIONAL_SINGLE([gunicorn-module],[],[Python module used to start Gunicorn WSGI server],[mitre.securingai.restapi.cli.gunicorn])
+# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[dioptra])
+# ARG_OPTIONAL_SINGLE([gunicorn-module],[],[Python module used to start Gunicorn WSGI server],[dioptra.restapi.cli.gunicorn])
 # ARG_OPTIONAL_ACTION([upgrade-db],[],[Upgrade the database schema],[upgrade_database])
 # ARG_DEFAULTS_POS
 # ARGBASH_SET_INDENT([  ])
-# ARG_HELP([Securing AI Testbed API Entry Point\n])"
+# ARG_HELP([Dioptra REST API Entry Point\n])"
 # ARGBASH_PREPARE
 
 # [ <-- needed because of Argbash
@@ -69,7 +69,7 @@ secure_container() {
 }
 
 ###########################################################################################
-# Upgrade the Securing AI database
+# Upgrade the Dioptra database
 #
 # Globals:
 #   ai_workdir
@@ -83,7 +83,7 @@ secure_container() {
 ###########################################################################################
 
 upgrade_database() {
-  echo "${logname}: INFO - Upgrading the Securing AI database"
+  echo "${logname}: INFO - Upgrading the Dioptra database"
 
   set_parsed_globals
 

@@ -50,7 +50,7 @@
 # m4_ignore(
 echo "This is just a script template, not the script (yet) - pass it to 'argbash' to fix this." >&2
 exit 11 #)Created by argbash-init v2.8.1
-# ARG_OPTIONAL_SINGLE([default-username],[],[Non-root username used during runtime],[securingai])
+# ARG_OPTIONAL_SINGLE([default-username],[],[Non-root username used during runtime],[dioptra])
 # ARG_DEFAULTS_POS
 # ARGBASH_SET_INDENT([  ])
 # ARG_HELP([Secure Docker container at runtime\n])"

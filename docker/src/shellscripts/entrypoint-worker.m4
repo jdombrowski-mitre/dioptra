@@ -19,13 +19,13 @@
 # m4_ignore(
 echo "This is just a script template, not the script (yet) - pass it to 'argbash' to fix this." >&2
 exit 11 #)Created by argbash-init v2.8.1
-# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[mitre-securing-ai])
+# ARG_OPTIONAL_SINGLE([conda-env],[],[Conda environment],[dioptra])
 # ARG_OPTIONAL_SINGLE([results-ttl],[],[Job results will be kept for this number of seconds],[500])
-# ARG_OPTIONAL_SINGLE([rq-worker-module],[],[Python module used to start the RQ Worker],[mitre.securingai.rq.cli.rq])
+# ARG_OPTIONAL_SINGLE([rq-worker-module],[],[Python module used to start the RQ Worker],[dioptra.rq.cli.rq])
 # ARG_LEFTOVERS([Queues to watch])
 # ARG_DEFAULTS_POS
 # ARGBASH_SET_INDENT([  ])
-# ARG_HELP([Securing AI Worker Entry Point\n])"
+# ARG_HELP([Dioptra Worker Entry Point\n])"
 # ARGBASH_GO
 
 # [ <-- needed because of Argbash
