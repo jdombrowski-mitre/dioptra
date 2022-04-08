@@ -26,7 +26,7 @@ from dioptra.sdk.utilities.logging import (
 
 if __name__ == "__main__":
     attach_stdout_stream_handler(
-        True if os.getenv("AI_RQ_WORKER_LOG_AS_JSON") else False,
+        True if os.getenv("DIOPTRA_RQ_WORKER_LOG_AS_JSON") else False,
     )
-    set_logging_level(os.getenv("AI_RQ_WORKER_LOG_LEVEL", default="INFO"))
+    set_logging_level(os.getenv("DIOPTRA_RQ_WORKER_LOG_LEVEL", default="INFO"))
     rq_cli()

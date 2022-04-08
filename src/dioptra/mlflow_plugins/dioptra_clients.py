@@ -27,13 +27,13 @@ from dioptra.restapi import create_app
 from dioptra.restapi.app import db
 from dioptra.restapi.models import Experiment, Job
 
-ENVVAR_RESTAPI_ENV = "AI_RESTAPI_ENV"
-ENVVAR_JOB_ID = "AI_RQ_JOB_ID"
+ENVVAR_RESTAPI_ENV = "DIOPTRA_RESTAPI_ENV"
+ENVVAR_JOB_ID = "DIOPTRA_RQ_JOB_ID"
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
 
-class SecuringAIDatabaseClient(object):
+class DioptraDatabaseClient(object):
     @property
     def app(self) -> Flask:
         app: Flask = create_app(env=self.restapi_env)
@@ -89,7 +89,7 @@ class SecuringAIDatabaseClient(object):
         if self.job_id is None:
             return None
 
-        LOGGER.info("=== Setting MLFlow run ID in Securing AI database ===")
+        LOGGER.info("=== Setting MLFlow run ID in the Dioptra database ===")
 
         with self.app.app_context():
             job = Job.query.get(self.job_id)
@@ -123,7 +123,7 @@ class SecuringAIDatabaseClient(object):
 
     def restore_job(self, job_id: str) -> None:
         LOGGER.info(
-            f"=== Restoring MLFlow job id '{job_id}' in the Securing AI " "database ==="
+            f"=== Restoring MLFlow job id '{job_id}' in the Dioptra " "database ==="
         )
 
         with self.app.app_context():
@@ -138,8 +138,7 @@ class SecuringAIDatabaseClient(object):
 
     def delete_job(self, job_id: str) -> None:
         LOGGER.info(
-            f"=== Deleting MLFlow job id '{job_id}' from the Securing AI "
-            "database ==="
+            f"=== Deleting MLFlow job id '{job_id}' from the Dioptra " "database ==="
         )
 
         with self.app.app_context():
@@ -160,7 +159,7 @@ class SecuringAIDatabaseClient(object):
 
         LOGGER.info(
             f"=== Registering MLFlow experiment '{experiment_name}' with id "
-            f"'{experiment_id}' in Securing AI database ==="
+            f"'{experiment_id}' in Dioptra database ==="
         )
 
         with self.app.app_context():
@@ -182,7 +181,7 @@ class SecuringAIDatabaseClient(object):
     def rename_experiment(self, experiment_id: int, new_name: str) -> None:
         LOGGER.info(
             f"=== Renaming MLFlow experiment id '{experiment_id}' to '{new_name}' in "
-            "the Securing AI database ==="
+            "the Dioptra database ==="
         )
 
         with self.app.app_context():
@@ -198,7 +197,7 @@ class SecuringAIDatabaseClient(object):
 
     def delete_experiment(self, experiment_id: int) -> None:
         LOGGER.info(
-            f"=== Deleting MLFlow experiment id '{experiment_id}' from the Securing AI "
+            f"=== Deleting MLFlow experiment id '{experiment_id}' from the Dioptra "
             "database ==="
         )
 

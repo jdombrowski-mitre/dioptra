@@ -20,7 +20,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterable, Iterator, List
 
-ENV_VAR_PLUGIN_DIR = "AI_PLUGIN_DIR"
+ENV_VAR_PLUGIN_DIR = "DIOPTRA_PLUGIN_DIR"
 
 
 @contextmanager

@@ -60,7 +60,7 @@ class TaskPluginResource(Resource):
         )
         log.info("Request received")
         return self._task_plugin_service.get_all(
-            bucket=current_app.config["AI_PLUGINS_BUCKET"], log=log
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"], log=log
         )
 
     @api.expect(as_api_parser(api, TaskPluginUploadSchema))
@@ -87,7 +87,7 @@ class TaskPluginResource(Resource):
         )
         return self._task_plugin_service.create(
             task_plugin_upload_form_data=task_plugin_upload_form_data,
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
@@ -112,7 +112,7 @@ class TaskPluginBuiltinsCollectionResource(Resource):
         log.info("Request received")
         return self._task_plugin_service.get_all_in_collection(
             collection="securingai_builtins",
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
@@ -146,7 +146,7 @@ class TaskPluginBuiltinCollectionNameResource(Resource):
         ] = self._task_plugin_service.get_by_name_in_collection(
             collection="securingai_builtins",
             task_plugin_name=taskPluginName,
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
@@ -181,7 +181,7 @@ class TaskPluginCustomCollectionResource(Resource):
         log.info("Request received")
         return self._task_plugin_service.get_all_in_collection(
             collection="securingai_custom",
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
@@ -215,7 +215,7 @@ class TaskPluginCustomCollectionNameResource(Resource):
         ] = self._task_plugin_service.get_by_name_in_collection(
             collection="securingai_custom",
             task_plugin_name=taskPluginName,
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
@@ -242,7 +242,7 @@ class TaskPluginCustomCollectionNameResource(Resource):
         task_plugins: List[TaskPlugin] = self._task_plugin_service.delete(
             collection="securingai_custom",
             task_plugin_name=taskPluginName,
-            bucket=current_app.config["AI_PLUGINS_BUCKET"],
+            bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
         name: List[str] = [x.task_plugin_name for x in task_plugins]

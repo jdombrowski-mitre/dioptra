@@ -52,14 +52,14 @@ def run_mlflow_task(
     rq_job: Optional[RQJob] = get_current_job()
 
     if rq_job is not None:
-        env["AI_RQ_JOB_ID"] = rq_job.get_id()
+        env["DIOPTRA_RQ_JOB_ID"] = rq_job.get_id()
 
-    log: BoundLogger = LOGGER.new(rq_job_id=env.get("AI_RQ_JOB_ID"))
+    log: BoundLogger = LOGGER.new(rq_job_id=env.get("DIOPTRA_RQ_JOB_ID"))
 
     if entry_point_kwargs is not None:
         cmd.extend(shlex.split(entry_point_kwargs))
 
-    with TemporaryDirectory(dir=os.getenv("AI_WORKDIR")) as tmpdir:
+    with TemporaryDirectory(dir=os.getenv("DIOPTRA_WORKDIR")) as tmpdir:
         log.info("Executing MLFlow job", cmd=" ".join(cmd))
         p = subprocess.run(args=cmd, cwd=tmpdir, env=env)
 

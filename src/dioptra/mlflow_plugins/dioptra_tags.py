@@ -14,6 +14,6 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-SECURINGAI_DEPENDS_ON = "dioptra.dependsOn"
-SECURINGAI_JOB_ID = "dioptra.jobId"
-SECURINGAI_QUEUE = "dioptra.queue"
+DIOPTRA_DEPENDS_ON = "dioptra.dependsOn"
+DIOPTRA_JOB_ID = "dioptra.jobId"
+DIOPTRA_QUEUE = "dioptra.queue"

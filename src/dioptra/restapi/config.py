@@ -34,39 +34,41 @@ class BaseConfig(object):
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = False
-    AI_PLUGINS_BUCKET = os.getenv("AI_PLUGINS_BUCKET", "plugins")
+    DIOPTRA_PLUGINS_BUCKET = os.getenv("DIOPTRA_PLUGINS_BUCKET", "plugins")
 
 
 class DevelopmentConfig(BaseConfig):
     CONFIG_NAME = "dev"
-    SECRET_KEY = os.getenv("AI_DEPLOY_SECRET_KEY", "deploy123")
+    SECRET_KEY = os.getenv("DIOPTRA_DEPLOY_SECRET_KEY", "deploy123")
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        "AI_RESTAPI_DEV_DATABASE_URI",
+        "DIOPTRA_RESTAPI_DEV_DATABASE_URI",
         f"sqlite:///{os.path.join(os.getcwd(), 'dioptra-dev.db')}",
     )
 
 
 class TestingConfig(BaseConfig):
     CONFIG_NAME = "test"
-    SECRET_KEY = os.getenv("AI_DEPLOY_SECRET_KEY", "deploy123")
+    SECRET_KEY = os.getenv("DIOPTRA_DEPLOY_SECRET_KEY", "deploy123")
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = os.getenv("AI_RESTAPI_TEST_DATABASE_URI", "sqlite://")
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        "DIOPTRA_RESTAPI_TEST_DATABASE_URI", "sqlite://"
+    )
 
 
 class ProductionConfig(BaseConfig):
     CONFIG_NAME = "prod"
-    SECRET_KEY = os.getenv("AI_DEPLOY_SECRET_KEY", "deploy123")
+    SECRET_KEY = os.getenv("DIOPTRA_DEPLOY_SECRET_KEY", "deploy123")
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        "AI_RESTAPI_DATABASE_URI",
+        "DIOPTRA_RESTAPI_DATABASE_URI",
         f"sqlite:///{os.path.join(os.getcwd(), 'dioptra.db')}",
     )
 

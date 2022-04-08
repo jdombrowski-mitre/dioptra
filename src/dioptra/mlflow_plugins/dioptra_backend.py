@@ -34,14 +34,14 @@ from mlflow.projects.utils import (
     load_project,
 )
 
-from .securingai_clients import SecuringAIDatabaseClient
-from .securingai_tags import SECURINGAI_DEPENDS_ON, SECURINGAI_JOB_ID, SECURINGAI_QUEUE
+from .dioptra_clients import DioptraDatabaseClient
+from .dioptra_tags import DIOPTRA_DEPENDS_ON, DIOPTRA_JOB_ID, DIOPTRA_QUEUE
 
 PROJECT_WORKFLOW_FILEPATH = "workflow_filepath"
 _logger = structlog.get_logger()
 
 
-class SecuringAIProjectBackend(AbstractBackend):
+class DioptraProjectBackend(AbstractBackend):
     def run(
         self,
         project_uri,
@@ -53,7 +53,7 @@ class SecuringAIProjectBackend(AbstractBackend):
         experiment_id,
     ):
         _logger.info(
-            "Starting Securing AI execution backend",
+            "Starting Dioptra execution backend",
             project_uri=project_uri,
             entry_point=entry_point,
             params=params,
@@ -77,10 +77,8 @@ class SecuringAIProjectBackend(AbstractBackend):
         active_run = get_or_create_run(
             run_id, project_uri, experiment_id, work_dir, version, entry_point, params
         )
-        SecuringAIDatabaseClient().set_mlflow_run_id_in_db(
-            run_id=active_run.info.run_id
-        )
-        _set_securingai_tags(run_id=active_run.info.run_id)
+        DioptraDatabaseClient().set_mlflow_run_id_in_db(run_id=active_run.info.run_id)
+        _set_dioptra_tags(run_id=active_run.info.run_id)
         _log_workflow_artifact(
             run_id=active_run.info.run_id, workflow_filepath=workflow_filepath
         )
@@ -125,7 +123,7 @@ def _run_entry_point(command, work_dir, experiment_id, run_id):
             ["cmd", "/c", command], close_fds=True, cwd=work_dir, env=env
         )
 
-    SecuringAIDatabaseClient().update_active_job_status(status="started")
+    DioptraDatabaseClient().update_active_job_status(status="started")
     return LocalSubmittedRun(run_id, process)
 
 
@@ -145,18 +143,18 @@ def _wait_for(submitted_run_obj):
 
         if submitted_run_obj.wait():
             _logger.info(f"=== Run (ID '{run_id}') succeeded ===")
-            SecuringAIDatabaseClient().update_active_job_status(status="finished")
+            DioptraDatabaseClient().update_active_job_status(status="finished")
             _maybe_set_run_terminated(active_run, "FINISHED")
 
         else:
-            SecuringAIDatabaseClient().update_active_job_status(status="failed")
+            DioptraDatabaseClient().update_active_job_status(status="failed")
             _maybe_set_run_terminated(active_run, "FAILED")
             raise ExecutionException("Run (ID '%s') failed" % run_id)
 
     except KeyboardInterrupt:
         _logger.error(f"=== Run (ID '{run_id}') interrupted, cancelling run ===")
         submitted_run_obj.cancel()
-        SecuringAIDatabaseClient().update_active_job_status(status="failed")
+        DioptraDatabaseClient().update_active_job_status(status="failed")
         _maybe_set_run_terminated(active_run, "FAILED")
         raise
 
@@ -182,15 +180,15 @@ def _log_workflow_artifact(run_id, workflow_filepath):
     client.log_artifact(run_id=run_id, local_path=workflow_filepath)
 
 
-def _set_securingai_tags(run_id):
-    job: Optional[Dict[str, Any]] = SecuringAIDatabaseClient().get_active_job()
+def _set_dioptra_tags(run_id):
+    job: Optional[Dict[str, Any]] = DioptraDatabaseClient().get_active_job()
 
     if job is None:
         return None
 
     client = tracking.MlflowClient()
-    client.set_tag(run_id=run_id, key=SECURINGAI_JOB_ID, value=job.get("job_id", ""))
-    client.set_tag(run_id=run_id, key=SECURINGAI_QUEUE, value=job.get("queue", ""))
+    client.set_tag(run_id=run_id, key=DIOPTRA_JOB_ID, value=job.get("job_id", ""))
+    client.set_tag(run_id=run_id, key=DIOPTRA_QUEUE, value=job.get("queue", ""))
     client.set_tag(
-        run_id=run_id, key=SECURINGAI_DEPENDS_ON, value=job.get("depends_on", "")
+        run_id=run_id, key=DIOPTRA_DEPENDS_ON, value=job.get("depends_on", "")
     )
