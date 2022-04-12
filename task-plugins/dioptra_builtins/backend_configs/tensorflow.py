@@ -44,7 +44,7 @@ def init_tensorflow(seed: int) -> None:
     """Initializes Tensorflow to ensure compatibility and reproducibility.
 
     This task plugin **must** be run before any other features from Tensorflow are used.
-    It disables Tensorflow's eager execution, which is not compatible with the Testbed's
+    It disables Tensorflow's eager execution, which is not compatible with Dioptra's
     entry point structure, and sets Tensorflow's internal seed for its random number
     generator.
 

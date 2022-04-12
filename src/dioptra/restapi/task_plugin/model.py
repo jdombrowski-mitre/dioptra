@@ -37,7 +37,7 @@ class TaskPlugin(object):
         task_plugin_name: A unique string identifying a task plugin package within a
             collection.
         collection: The collection that contains the task plugin module, for example,
-            the "securingai_builtins" collection.
+            the "dioptra_builtins" collection.
         modules: The available modules (Python files) in the task plugin package.
     """
 
@@ -83,7 +83,7 @@ class TaskPluginUploadForm(FlaskForm):
     )
     collection = SelectField(
         "Task Plugin Collection",
-        choices=[("securingai_custom", "Custom Task Plugins Collection")],
+        choices=[("dioptra_custom", "Custom Task Plugins Collection")],
         validators=[InputRequired()],
         description="The collection where the task plugin package should be stored.",
     )

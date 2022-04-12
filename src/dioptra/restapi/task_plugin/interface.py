@@ -32,7 +32,7 @@ class TaskPluginInterface(TypedDict, total=False):
         task_plugin_name: A unique string identifying a task plugin package within a
             collection.
         collection: The collection that contains the task plugin module, for example,
-            the "securingai_builtins" collection.
+            the "dioptra_builtins" collection.
         modules: The available modules (Python files) in the task plugin package.
     """
 

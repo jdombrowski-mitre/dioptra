@@ -92,7 +92,7 @@ class TaskPluginResource(Resource):
         )
 
 
-@api.route("/securingai_builtins")
+@api.route("/dioptra_builtins")
 class TaskPluginBuiltinsCollectionResource(Resource):
     """Shows a list of all builtin task plugins."""
 
@@ -111,16 +111,16 @@ class TaskPluginBuiltinsCollectionResource(Resource):
         )
         log.info("Request received")
         return self._task_plugin_service.get_all_in_collection(
-            collection="securingai_builtins",
+            collection="dioptra_builtins",
             bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
 
-@api.route("/securingai_builtins/<string:taskPluginName>")
+@api.route("/dioptra_builtins/<string:taskPluginName>")
 @api.param(
     "taskPluginName",
-    "A unique string identifying a task plugin package within securingai_builtins "
+    "A unique string identifying a task plugin package within dioptra_builtins "
     "collection.",
 )
 class TaskPluginBuiltinCollectionNameResource(Resource):
@@ -144,7 +144,7 @@ class TaskPluginBuiltinCollectionNameResource(Resource):
         task_plugin: Optional[
             TaskPlugin
         ] = self._task_plugin_service.get_by_name_in_collection(
-            collection="securingai_builtins",
+            collection="dioptra_builtins",
             task_plugin_name=taskPluginName,
             bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
@@ -154,14 +154,14 @@ class TaskPluginBuiltinCollectionNameResource(Resource):
             log.error(
                 "TaskPlugin not found",
                 task_plugin_name=taskPluginName,
-                collection="securingai_builtins",
+                collection="dioptra_builtins",
             )
             raise TaskPluginDoesNotExistError
 
         return task_plugin
 
 
-@api.route("/securingai_custom")
+@api.route("/dioptra_custom")
 class TaskPluginCustomCollectionResource(Resource):
     """Shows a list of all custom task plugins."""
 
@@ -180,16 +180,16 @@ class TaskPluginCustomCollectionResource(Resource):
         )
         log.info("Request received")
         return self._task_plugin_service.get_all_in_collection(
-            collection="securingai_custom",
+            collection="dioptra_custom",
             bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
         )
 
 
-@api.route("/securingai_custom/<string:taskPluginName>")
+@api.route("/dioptra_custom/<string:taskPluginName>")
 @api.param(
     "taskPluginName",
-    "A unique string identifying a task plugin package within securingai_custom "
+    "A unique string identifying a task plugin package within dioptra_custom "
     "collection.",
 )
 class TaskPluginCustomCollectionNameResource(Resource):
@@ -213,7 +213,7 @@ class TaskPluginCustomCollectionNameResource(Resource):
         task_plugin: Optional[
             TaskPlugin
         ] = self._task_plugin_service.get_by_name_in_collection(
-            collection="securingai_custom",
+            collection="dioptra_custom",
             task_plugin_name=taskPluginName,
             bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
@@ -223,7 +223,7 @@ class TaskPluginCustomCollectionNameResource(Resource):
             log.error(
                 "TaskPlugin not found",
                 task_plugin_name=taskPluginName,
-                collection="securingai_custom",
+                collection="dioptra_custom",
             )
             raise TaskPluginDoesNotExistError
 
@@ -240,7 +240,7 @@ class TaskPluginCustomCollectionNameResource(Resource):
         log.info("Request received")
 
         task_plugins: List[TaskPlugin] = self._task_plugin_service.delete(
-            collection="securingai_custom",
+            collection="dioptra_custom",
             task_plugin_name=taskPluginName,
             bucket=current_app.config["DIOPTRA_PLUGINS_BUCKET"],
             log=log,
@@ -248,5 +248,5 @@ class TaskPluginCustomCollectionNameResource(Resource):
         name: List[str] = [x.task_plugin_name for x in task_plugins]
 
         return jsonify(  # type: ignore
-            dict(status="Success", collection="securingai_custom", taskPluginName=name)
+            dict(status="Success", collection="dioptra_custom", taskPluginName=name)
         )
