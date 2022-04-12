@@ -38,7 +38,7 @@ from dioptra.sdk.utilities.logging import (
     set_logging_level,
 )
 
-_PLUGINS_IMPORT_PATH: str = "securingai_builtins"
+_PLUGINS_IMPORT_PATH: str = "dioptra_builtins"
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
 

@@ -38,8 +38,8 @@ from dioptra.sdk.utilities.logging import (
     set_logging_level,
 )
 
-_PLUGINS_IMPORT_PATH: str = "securingai_builtins"
-_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
+_PLUGINS_IMPORT_PATH: str = "dioptra_builtins"
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "dioptra_custom"
 DISTANCE_METRICS: List[Dict[str, str]] = [
 ]
 

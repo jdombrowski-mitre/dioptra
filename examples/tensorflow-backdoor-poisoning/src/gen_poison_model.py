@@ -40,8 +40,8 @@ from dioptra.sdk.utilities.logging import (
     set_logging_level,
 )
 
-_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
-_PLUGINS_IMPORT_PATH: str = "securingai_builtins"
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "dioptra_custom"
+_PLUGINS_IMPORT_PATH: str = "dioptra_builtins"
 CALLBACKS: List[Dict[str, Any]] = [
     {
         "name": "EarlyStopping",
