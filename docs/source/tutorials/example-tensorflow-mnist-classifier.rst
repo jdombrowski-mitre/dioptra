@@ -162,7 +162,7 @@ We connect using the client below, which uses the environment variable ``DIOPTRA
 
 .. code-block::
 
-   restapi_client = utils.SecuringAIClient()
+   restapi_client = utils.DioptraClient()
 
 We need to register an experiment under which to collect our job runs.
 The code below checks if the relevant experiment named ``"mnist"`` exists.

@@ -132,7 +132,7 @@ We connect using the client below, which uses the environment variable ``DIOPTRA
 
 .. code:: python3
 
-    restapi_client = utils.SecuringAIClient()
+    restapi_client = utils.DioptraClient()
 
 We need to register an experiment under which to collect our job runs.
 The code below checks if the relevant experiment exists.
@@ -241,10 +241,10 @@ Now we can query the job to view its output:
     {'mlflow.project.entryPoint': 'hello_world',
      'mlflow.source.name': '/work/tmp2kojr5cq',
      'mlflow.source.type': 'PROJECT',
-     'mlflow.user': 'securingai',
-     'securingai.dependsOn': 'None',
-     'securingai.jobId': 'b53f207c-820d-4a09-8f0c-ff55ac603c09',
-     'securingai.queue': 'tensorflow_cpu'}
+     'mlflow.user': 'dioptra',
+     'dioptra.dependsOn': 'None',
+     'dioptra.jobId': 'b53f207c-820d-4a09-8f0c-ff55ac603c09',
+     'dioptra.queue': 'tensorflow_cpu'}
 
 To customize job parameters, add ``"-P job_property=<job_value>"`` to the ``entry_point_kwargs`` field in the job submission script:
 
