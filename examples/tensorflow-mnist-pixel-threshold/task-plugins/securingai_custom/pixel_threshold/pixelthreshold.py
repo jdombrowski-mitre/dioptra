@@ -54,12 +54,12 @@ import structlog
 from structlog.stdlib import BoundLogger
 from prefect import task
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.exceptions import (
+from dioptra import pyplugs
+from dioptra.sdk.exceptions import (
     ARTDependencyError,
     TensorflowDependencyError,
 )
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra.sdk.utilities.decorators import require_package
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 

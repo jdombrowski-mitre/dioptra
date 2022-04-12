@@ -32,7 +32,7 @@ from art.attacks.inference.membership_inference.black_box import MembershipInfer
 from torch.nn import CrossEntropyLoss
 import numpy
 from torch.autograd import Variable
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 
 LOGGER = structlog.get_logger()
 DISTANCE_METRICS = [
@@ -108,4 +108,3 @@ def log_mi_metrics(inferred_train, inferred_test):
     mlflow.log_metric(key="acc",value=accuracy)
     mlflow.log_metric(key="acc_train",value=trainacc)
     mlflow.log_metric(key="acc_test",value=testacc)
-

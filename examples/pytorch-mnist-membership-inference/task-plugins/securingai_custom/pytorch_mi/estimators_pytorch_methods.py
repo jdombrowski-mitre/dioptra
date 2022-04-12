@@ -21,8 +21,8 @@ import mlflow
 import structlog
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.generics import estimator_predict, fit_estimator
+from dioptra import pyplugs
+from dioptra.sdk.generics import estimator_predict, fit_estimator
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 from torch.nn import CrossEntropyLoss

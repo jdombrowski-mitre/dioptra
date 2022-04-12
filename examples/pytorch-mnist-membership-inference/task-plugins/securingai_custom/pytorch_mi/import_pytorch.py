@@ -21,8 +21,8 @@ from typing import Union
 import structlog
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai.sdk.exceptions import TensorflowDependencyError
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra.sdk.exceptions import TensorflowDependencyError
+from dioptra.sdk.utilities.decorators import require_package
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
@@ -41,5 +41,3 @@ def get_optimizer(optimizer_name: str) -> Optimizer:
     pytorch_optimizers: ModuleType = importlib.import_module(PYTORCH_OPTIMIZERS)
     optimizer: Optimizer = getattr(pytorch_optimizers, optimizer_name)
     return optimizer
-
-

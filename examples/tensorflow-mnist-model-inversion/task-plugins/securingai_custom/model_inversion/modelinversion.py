@@ -27,13 +27,13 @@ import scipy.stats
 import structlog
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 from prefect import task
-from mitre.securingai.sdk.exceptions import (
+from dioptra.sdk.exceptions import (
     ARTDependencyError,
     TensorflowDependencyError,
 )
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra.sdk.utilities.decorators import require_package
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
@@ -115,7 +115,3 @@ def _save_adv_batch(adv_batch, adv_data_dir, y, filename) -> None:
             adv_image_path.parent.mkdir(parents=True)
 
         save_img(path=str(adv_image_path), x=adv_image)
-
-
-
-

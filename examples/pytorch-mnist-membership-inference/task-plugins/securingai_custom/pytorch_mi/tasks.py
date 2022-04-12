@@ -22,10 +22,10 @@ from typing import Any, Dict, List, Union
 from . import import_pytorch
 
 import structlog
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra.sdk.utilities.decorators import require_package
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 

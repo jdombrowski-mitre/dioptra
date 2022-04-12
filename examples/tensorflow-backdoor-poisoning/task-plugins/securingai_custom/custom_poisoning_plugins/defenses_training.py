@@ -26,12 +26,12 @@ import numpy as np
 from prefect import task
 from tensorflow.keras.models import Model
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.exceptions import (
+from dioptra import pyplugs
+from dioptra.sdk.exceptions import (
     ARTDependencyError,
     TensorflowDependencyError,
 )
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra.sdk.utilities.decorators import require_package
 
 try:
     from art.defences.trainer import AdversarialTrainerMadryPGD

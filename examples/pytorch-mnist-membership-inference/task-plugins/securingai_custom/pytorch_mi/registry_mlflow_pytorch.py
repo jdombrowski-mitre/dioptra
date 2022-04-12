@@ -25,11 +25,11 @@ from mlflow.tracking import MlflowClient
 from structlog.stdlib import BoundLogger
 from mlflow.keras import load_model as load_tf_keras_model
 from mlflow.pytorch import load_model as load_pytorch_model
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.exceptions import TensorflowDependencyError
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra import pyplugs
+from dioptra.sdk.exceptions import TensorflowDependencyError
+from dioptra.sdk.utilities.decorators import require_package
 
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
@@ -85,5 +85,3 @@ def load_pytorch_classifier(name: str, version: int) -> Sequential:
     uri: str = f"models:/{name}/{version}"
     LOGGER.info("Load Pytorch classifier from model registry", uri=uri)
     return load_pytorch_model(model_uri=uri)
-
-

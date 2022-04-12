@@ -23,9 +23,9 @@ from prefect import task
 from structlog.stdlib import BoundLogger
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.exceptions import TensorflowDependencyError
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra import pyplugs
+from dioptra.sdk.exceptions import TensorflowDependencyError
+from dioptra.sdk.utilities.decorators import require_package
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
