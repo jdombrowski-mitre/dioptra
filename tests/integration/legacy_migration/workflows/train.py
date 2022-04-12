@@ -38,8 +38,8 @@ from dioptra.sdk.utilities.logging import (
     set_logging_level,
 )
 
-_PLUGINS_IMPORT_PATH: str = "securingai_builtins"
-_CUSTOM_PLUGINS_IMPORT_PATH: str = "securingai_custom"
+_PLUGINS_IMPORT_PATH: str = "dioptra_builtins"
+_CUSTOM_PLUGINS_IMPORT_PATH: str = "dioptra_custom"
 CALLBACKS: List[Dict[str, Any]] = [
     {
         "name": "EarlyStopping",
@@ -339,8 +339,8 @@ def init_train_flow() -> Flow:
 
 
 if __name__ == "__main__":
-    log_level: str = os.getenv("AI_JOB_LOG_LEVEL", default="INFO")
-    as_json: bool = True if os.getenv("AI_JOB_LOG_AS_JSON") else False
+    log_level: str = os.getenv("DIOPTRA_JOB_LOG_LEVEL", default="INFO")
+    as_json: bool = True if os.getenv("DIOPTRA_JOB_LOG_AS_JSON") else False
 
     clear_logger_handlers(get_prefect_logger())
     attach_stdout_stream_handler(as_json)

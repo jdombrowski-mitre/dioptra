@@ -36,7 +36,7 @@ LOGGER: BoundLogger = structlog.stdlib.get_logger()
 def task_plugin_upload_form_request(task_plugin_archive: BinaryIO) -> Dict[str, Any]:
     return {
         "task_plugin_name": "new_plugin_one",
-        "collection": "securingai_custom",
+        "collection": "dioptra_custom",
         "task_plugin_file": (task_plugin_archive, "task_plugin_new_package.tar.gz"),
     }
 
@@ -46,14 +46,14 @@ def test_task_plugin_resource_get(app: Flask, monkeypatch: MonkeyPatch) -> None:
         LOGGER.info("Mocking TaskPluginService.get_all()")
         return [
             TaskPlugin(
-                "artifacts", "securingai_builtins", ["__init__.py", "mlflow.py"]
+                "artifacts", "dioptra_builtins", ["__init__.py", "mlflow.py"]
             ),
-            TaskPlugin("attacks", "securingai_builtins", ["__init__.py", "fgm.py"]),
+            TaskPlugin("attacks", "dioptra_builtins", ["__init__.py", "fgm.py"]),
             TaskPlugin(
-                "new_plugin_one", "securingai_custom", ["__init__.py", "plugin_one.py"]
+                "new_plugin_one", "dioptra_custom", ["__init__.py", "plugin_one.py"]
             ),
             TaskPlugin(
-                "new_plugin_two", "securingai_custom", ["__init__.py", "plugin_two.py"]
+                "new_plugin_two", "dioptra_custom", ["__init__.py", "plugin_two.py"]
             ),
         ]
 
@@ -67,22 +67,22 @@ def test_task_plugin_resource_get(app: Flask, monkeypatch: MonkeyPatch) -> None:
         expected: List[Dict[str, Any]] = [
             {
                 "taskPluginName": "artifacts",
-                "collection": "securingai_builtins",
+                "collection": "dioptra_builtins",
                 "modules": ["__init__.py", "mlflow.py"],
             },
             {
                 "taskPluginName": "attacks",
-                "collection": "securingai_builtins",
+                "collection": "dioptra_builtins",
                 "modules": ["__init__.py", "fgm.py"],
             },
             {
                 "taskPluginName": "new_plugin_one",
-                "collection": "securingai_custom",
+                "collection": "dioptra_custom",
                 "modules": ["__init__.py", "plugin_one.py"],
             },
             {
                 "taskPluginName": "new_plugin_two",
-                "collection": "securingai_custom",
+                "collection": "dioptra_custom",
                 "modules": ["__init__.py", "plugin_two.py"],
             },
         ]
