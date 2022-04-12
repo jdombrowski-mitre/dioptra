@@ -32,7 +32,7 @@ from sklearn.metrics import (
 )
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 
 from .exceptions import UnknownPerformanceMetricError
 

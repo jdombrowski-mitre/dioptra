@@ -25,12 +25,9 @@ from __future__ import annotations
 import structlog
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.exceptions import (
-    ARTDependencyError,
-    TensorflowDependencyError,
-)
-from mitre.securingai.sdk.utilities.decorators import require_package
+from dioptra import pyplugs
+from dioptra.sdk.exceptions import ARTDependencyError, TensorflowDependencyError
+from dioptra.sdk.utilities.decorators import require_package
 
 from .mlflow import load_tensorflow_keras_classifier
 

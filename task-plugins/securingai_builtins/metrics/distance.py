@@ -31,7 +31,7 @@ from scipy.stats import wasserstein_distance
 from sklearn.metrics.pairwise import paired_distances
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 
 from .exceptions import UnknownDistanceMetricError
 

@@ -25,7 +25,7 @@ import structlog
 from numpy.random._generator import Generator as RNGenerator
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
+from dioptra import pyplugs
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 

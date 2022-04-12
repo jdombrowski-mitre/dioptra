@@ -30,8 +30,8 @@ import structlog
 from mlflow.tracking import MlflowClient
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.utilities.paths import set_path_ext
+from dioptra import pyplugs
+from dioptra.sdk.utilities.paths import set_path_ext
 
 from .exceptions import UnsupportedDataFrameFileFormatError
 

@@ -23,8 +23,8 @@ import mlflow
 import structlog
 from structlog.stdlib import BoundLogger
 
-from mitre.securingai import pyplugs
-from mitre.securingai.sdk.generics import estimator_predict, fit_estimator
+from dioptra import pyplugs
+from dioptra.sdk.generics import estimator_predict, fit_estimator
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
 
@@ -38,7 +38,7 @@ def fit(
 ) -> Any:
     """Fits the estimator to the given data.
 
-    This task plugin wraps :py:func:`~mitre.securingai.sdk.generics.fit_estimator`,
+    This task plugin wraps :py:func:`~dioptra.sdk.generics.fit_estimator`,
     which is a generic function that uses multiple argument dispatch to handle the
     estimator fitting method for different machine learning libraries. The modules
     attached to the advertised plugin entry point `securingai.generics.fit_estimator`
@@ -59,7 +59,7 @@ def fit(
         registered dispatch functions.
 
     See Also:
-        - :py:func:`mitre.securingai.sdk.generics.fit_estimator`
+        - :py:func:`dioptra.sdk.generics.fit_estimator`
     """
     fit_kwargs = fit_kwargs or {}
     time_start: datetime.datetime = datetime.datetime.now()
@@ -94,7 +94,7 @@ def predict(
 ) -> Any:
     """Uses the estimator to make predictions on the given input data.
 
-    This task plugin wraps :py:func:`~mitre.securingai.sdk.generics.estimator_predict`,
+    This task plugin wraps :py:func:`~dioptra.sdk.generics.estimator_predict`,
     which is a generic function that uses multiple argument dispatch to handle estimator
     prediction methods for different machine learning libraries. The modules attached to
     the advertised plugin entry point `securingai.generics.estimator_predict` are used
@@ -114,7 +114,7 @@ def predict(
         registered dispatch functions.
 
     See Also:
-        - :py:func:`mitre.securingai.sdk.generics.estimator_predict`
+        - :py:func:`dioptra.sdk.generics.estimator_predict`
     """
     predict_kwargs = predict_kwargs or {}
     prediction: Any = estimator_predict(estimator, x, **predict_kwargs)

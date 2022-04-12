@@ -16,7 +16,7 @@
 # https://creativecommons.org/licenses/by/4.0/legalcode
 """A task plugin module of exceptions for the artifacts plugins collection."""
 
-from mitre.securingai.sdk.exceptions.base import BaseTaskPluginError
+from dioptra.sdk.exceptions.base import BaseTaskPluginError
 
 
 class UnsupportedDataFrameFileFormatError(BaseTaskPluginError):
