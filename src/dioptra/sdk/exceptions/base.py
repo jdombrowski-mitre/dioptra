@@ -14,24 +14,24 @@
 #
 # ACCESS THE FULL CC BY 4.0 LICENSE HERE:
 # https://creativecommons.org/licenses/by/4.0/legalcode
-"""Base classes for exceptions in the Securing AI package"""
+"""Base classes for exceptions in the Dioptra package"""
 
 
-class BaseSecuringAIError(Exception):
-    """Base class for all Securing AI exceptions."""
+class BaseDioptraError(Exception):
+    """Base class for all Dioptra exceptions."""
 
 
-class BaseGenericsRegistryError(BaseSecuringAIError):
+class BaseGenericsRegistryError(BaseDioptraError):
     """Base class for all generics registration exceptions."""
 
 
-class BaseOptionalDependencyError(BaseSecuringAIError):
+class BaseOptionalDependencyError(BaseDioptraError):
     """Base class for all optional dependency exceptions."""
 
 
-class BasePyPlugsException(BaseSecuringAIError):
+class BasePyPlugsException(BaseDioptraError):
     """Base class for all PyPlugs exceptions."""
 
 
-class BaseTaskPluginError(BaseSecuringAIError):
+class BaseTaskPluginError(BaseDioptraError):
     """Base class for all task plugin exceptions."""
