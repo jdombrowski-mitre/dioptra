@@ -417,10 +417,10 @@ jobs:
       - name: cache the mnist dataset download
         uses: actions/cache@v3.0.1
         with:
-          path: /tmp/testbed-cache/mnist
-          key: ${{ runner.os }}-testbed-cache-mnist
+          path: /tmp/dioptra-cache/mnist
+          key: ${{ runner.os }}-dioptra-cache-mnist
           restore-keys: |
-            ${{ runner.os }}-testbed-cache-mnist
+            ${{ runner.os }}-dioptra-cache-mnist
 
       - name: run ${{ matrix.tox-env }} test
         run: tox -e ${{ matrix.tox-env }}
