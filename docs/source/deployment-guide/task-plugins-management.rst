@@ -40,7 +40,7 @@ Configuring the task plugins system is a two part process,
 For the purposes of this guide, let's assume the following,
 
 - We want to sync the plugins to an S3 bucket named `plugins`
-- The latest version of the ``securingai_builtins`` task plugins are available at the directory ``/path/to/task-plugins``
+- The latest version of the ``dioptra_builtins`` task plugins are available at the directory ``/path/to/task-plugins``
 - The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/dioptra/lab_deployment``
 - We need root access in order to interact with Docker
 
@@ -57,7 +57,7 @@ We now use a `dioptra/restapi` container to create the `plugins` bucket and uplo
    # Run inside the container
    s3-mb.sh --endpoint-url ${MLFLOW_S3_ENDPOINT_URL} plugins
    s3-sync.sh --endpoint-url ${MLFLOW_S3_ENDPOINT_URL} --delete \
-     /task-plugins/securingai_builtins s3://plugins/securingai_builtins
+     /task-plugins/dioptra_builtins s3://plugins/dioptra_builtins
 
    # Exit the container
    exit
@@ -65,7 +65,7 @@ We now use a `dioptra/restapi` container to create the `plugins` bucket and uplo
    # Teardown
    docker-compose down
 
-To set the ``DIOPTRA_PLUGINS_S3_URI`` environment variable for the Testbed Workers, open your ``docker-compose.yml`` file and add ``DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins`` to each Worker's ``environment:`` block,
+To set the ``DIOPTRA_PLUGINS_S3_URI`` environment variable for the Testbed Workers, open your ``docker-compose.yml`` file and add ``DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins`` to each Worker's ``environment:`` block,
 
 .. code-block:: yaml
 
@@ -73,7 +73,7 @@ To set the ``DIOPTRA_PLUGINS_S3_URI`` environment variable for the Testbed Worke
      image: dioptra/tensorflow2-cpu:latest
      # ...Truncated...
      environment:
-       DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+       DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
        DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
        DIOPTRA_RESTAPI_ENV: prod
      # ...Truncated...
@@ -85,8 +85,8 @@ Updating the Collection
 To update the task plugins collection, all you need to do is synchronize the latest versions of the task plugins to the S3 bucket where they're stored.
 Like before, we assume that,
 
-- Our task plugins collection is stored in the folder ``s3://plugins/securingai_builtins``
-- The newer versions of these plugins are in the directory ``/path/to/task-plugins/securingai_builtins``
+- Our task plugins collection is stored in the folder ``s3://plugins/dioptra_builtins``
+- The newer versions of these plugins are in the directory ``/path/to/task-plugins/dioptra_builtins``
 - The ``docker-compose.yml`` file we are using to manage our deployment is in the directory ``/etc/dioptra/lab_deployment``
 - We need root access in order to interact with Docker
 
@@ -98,7 +98,7 @@ So, just as before, we run ``sudo -s`` to become root, navigate to the ``/etc/di
    docker-compose run --rm --entrypoint "/bin/bash" -u $(id -u):$(id -g) \
      -v /path/to/task-plugins:/task-plugins restapi -c '/usr/local/bin/s3-sync.sh \
      --endpoint-url ${MLFLOW_S3_ENDPOINT_URL} --delete \
-     /task-plugins/securingai_builtins s3://plugins/securingai_builtins'
+     /task-plugins/dioptra_builtins s3://plugins/dioptra_builtins'
 
    # Teardown
    docker-compose down

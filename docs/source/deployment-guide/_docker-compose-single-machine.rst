@@ -204,7 +204,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -237,7 +237,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -271,7 +271,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -301,7 +301,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -331,7 +331,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -360,7 +360,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -392,7 +392,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username
@@ -425,7 +425,7 @@
          - mlflow-tracking
          - redis
        environment:
-         DIOPTRA_PLUGINS_S3_URI: s3://plugins/securingai_builtins
+         DIOPTRA_PLUGINS_S3_URI: s3://plugins/dioptra_builtins
          DIOPTRA_RESTAPI_DATABASE_URI: sqlite:////work/data/dioptra.db
          DIOPTRA_RESTAPI_ENV: prod
          AWS_ACCESS_KEY_ID: # Replace with desired username

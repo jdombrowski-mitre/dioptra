@@ -30,7 +30,7 @@ Building Development Docker Images
 
    .. code-block:: bash
 
-      cd path/to/secure-ai-lab-components
+      cd path/to/dioptra
 
    **NOTE**: You must substitute the code snippet ``path/to/`` with the true path for the project codebase on your device. This should be the same path used in :ref:`Clone the Repository: Step 2 <quickstart-clone-repository-step-2>`.
 

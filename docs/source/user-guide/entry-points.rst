@@ -264,7 +264,7 @@ The following example shows the beginnings of a :py:class:`~prefect.Flow` contex
    from prefect import Flow, Parameter
    from dioptra import pyplugs
 
-   _PLUGINS_IMPORT_PATH: str = "securingai_builtins"
+   _PLUGINS_IMPORT_PATH: str = "dioptra_builtins"
 
 
    def init_flow() -> Flow:

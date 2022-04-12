@@ -33,7 +33,7 @@ They are stored in the following directories:
 .. code-block:: none
 
    task-plugins/
-       └── securingai_builtins
+       └── dioptra_builtins
            ├── artifacts
            |   ├── exceptions.py
            |   ├── mlflow.py
@@ -65,7 +65,7 @@ Please refer to :ref:`user-guide-task-plugins-collection` for more information r
 Task Organization: Local Tasks
 ------------------------------
 
-In general while built-in task plugins are located in the ``task-plugins/securingai_builtins`` folder, local tasks can be stored in the same way as local python functions in each example's src code folder.
+In general while built-in task plugins are located in the ``task-plugins/dioptra_builtins`` folder, local tasks can be stored in the same way as local python functions in each example's src code folder.
 
 For instance, in our previous guide on creating custom entry points we had a localized task called ``task_B`` which was stored in the python file ``custom_local_task_plugins.py``.
 
@@ -128,7 +128,7 @@ Note that we assumed these new tasks have been saved in a module named ``ops.py`
        ...
        // Call new builtin task.
        result = pyplugs.call_task(
-           "securingai_builtins.data",
+           "dioptra_builtins.data",
            "ops",
            "add_values",
            x=input_x,

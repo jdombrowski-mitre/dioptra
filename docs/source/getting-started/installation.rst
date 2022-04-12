@@ -160,7 +160,7 @@ Finally, verify the repository was downloaded and is up to date,
 
 .. code-block:: sh
 
-   cd secure-ai-lab-components && git pull
+   cd dioptra && git pull
 
 The message *Already up to date.* should be echoed, verifying the repository was successfully cloned to your device.
 
@@ -208,7 +208,7 @@ If you are a developer using a separate branch please see :ref:`dev-guide-build-
 
    .. code-block:: bash
 
-      cd path/to/secure-ai-lab-components
+      cd path/to/dioptra
 
    **NOTE**: You must substitute the code snippet ``path/to/`` with the true path for the project codebase on your device.
    This should be the same path used in step 2 of :ref:`Clone the Repository <quickstart-clone-repository>`.

@@ -48,14 +48,14 @@ Let's return to the :ref:`final example from the previous guide <entry-points-pr
    with Flow("Image Resizer") as flow:
        data_dir, image_size = Parameter("data_dir"), Parameter("image_size")
        resize_output = pyplugs.call_task(
-           "securingai_builtins.data",    # namespace.package import path
+           "dioptra_builtins.data",    # namespace.package import path
            "images",                      # module to import
            "resize",                      # function to call
            data_dir=training_dir,         # Named argument of resize()
            image_size=image_size,         # Named argument of resize()
        )
        rotated_image = pyplugs.call_task( # Task won't run until resize_output is available
-           "securingai_builtins.data",    # namespace.package import path
+           "dioptra_builtins.data",    # namespace.package import path
            "images",                      # module to import
            "rotate",                      # function to call
            data=resize_output,            # Named argument of rotate()
@@ -65,7 +65,7 @@ Let's return to the :ref:`final example from the previous guide <entry-points-pr
 
 Some inline annotations have been added to the code to illustrate the anatomy of the :py:func:`.pyplugs.call_task` function calls.
 The first two arguments provide the ``namespace.package.module`` import path that leads you towards your function of interest, and the third argument names that function.
-This means that the full paths to our functions are ``securingai_builtins.data.images.resize()`` and ``securingai_builtins.data.images.rotate()``.
+This means that the full paths to our functions are ``dioptra_builtins.data.images.resize()`` and ``dioptra_builtins.data.images.rotate()``.
 Any number of named arguments may follow after these first three, which is how you pass specific arguments to the functions we're using.
 Here, the ``resize()`` function will get `data_dir` and `image_size` arguments and the ``rotate`` function will get ``data`` and ``image_size`` arguments.
 Finally, we should note that, because we are passing the output of the first :py:func:`.pyplugs.call_task` function call into the second one with `data=resize_output`, we are declaring that there should be an explicit dependency between these task plugin calls, meaning the ``rotate()`` function will **never** be called before the ``resize()`` function call has finished running.
@@ -80,7 +80,7 @@ Finally, we should note that, because we are passing the output of the first :py
    
       ...
       rotated_image = pyplugs.call_task(  # Task won't run until resize_output is available
-          "securingai_builtins.data",     # namespace.package import path
+          "dioptra_builtins.data",     # namespace.package import path
           "images",                       # module to import
           "rotate",                       # function to call
           image_size=image_size,          # Named argument of rotate()
