@@ -391,7 +391,7 @@ download_workflow() {
 
 sync_builtin_plugins() {
   local src="${dioptra_plugins_s3_uri}"
-  local dest="${dioptra_plugin_dir}/securingai_builtins"
+  local dest="${dioptra_plugin_dir}/dioptra_builtins"
 
   if [[ ! -z ${mlflow_s3_endpoint_url} && -f /usr/local/bin/s3-sync.sh ]]; then
     /usr/local/bin/s3-sync.sh --endpoint-url ${mlflow_s3_endpoint_url} --delete ${src} ${dest}
@@ -418,7 +418,7 @@ sync_builtin_plugins() {
 
 sync_custom_plugins() {
   local src="${dioptra_custom_plugins_s3_uri}"
-  local dest="${dioptra_plugin_dir}/securingai_custom"
+  local dest="${dioptra_plugin_dir}/dioptra_custom"
 
   if [[ ! -z ${mlflow_s3_endpoint_url} && -f /usr/local/bin/s3-sync.sh ]]; then
     /usr/local/bin/s3-sync.sh --endpoint-url ${mlflow_s3_endpoint_url} --delete ${src} ${dest}
