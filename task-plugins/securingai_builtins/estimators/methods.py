@@ -38,13 +38,13 @@ def fit(
 ) -> Any:
     """Fits the estimator to the given data.
 
-    This task plugin wraps :py:func:`~dioptra.sdk.generics.fit_estimator`,
-    which is a generic function that uses multiple argument dispatch to handle the
-    estimator fitting method for different machine learning libraries. The modules
-    attached to the advertised plugin entry point `securingai.generics.fit_estimator`
-    are used to build the function dispatch registry at runtime. For more information on
-    the supported fitting methods and `fit_kwargs` arguments, please refer to the
-    documentation of the registered dispatch functions.
+    This task plugin wraps :py:func:`~dioptra.sdk.generics.fit_estimator`, which is a
+    generic function that uses multiple argument dispatch to handle the estimator
+    fitting method for different machine learning libraries. The modules attached to the
+    advertised plugin entry point `dioptra.generics.fit_estimator` are used to build the
+    function dispatch registry at runtime. For more information on the supported fitting
+    methods and `fit_kwargs` arguments, please refer to the documentation of the
+    registered dispatch functions.
 
     Args:
         estimator: The model to be trained.
@@ -94,11 +94,11 @@ def predict(
 ) -> Any:
     """Uses the estimator to make predictions on the given input data.
 
-    This task plugin wraps :py:func:`~dioptra.sdk.generics.estimator_predict`,
-    which is a generic function that uses multiple argument dispatch to handle estimator
+    This task plugin wraps :py:func:`~dioptra.sdk.generics.estimator_predict`, which is
+    a generic function that uses multiple argument dispatch to handle estimator
     prediction methods for different machine learning libraries. The modules attached to
-    the advertised plugin entry point `securingai.generics.estimator_predict` are used
-    to build the function dispatch registry at runtime. For more information on the
+    the advertised plugin entry point `dioptra.generics.estimator_predict` are used to
+    build the function dispatch registry at runtime. For more information on the
     supported prediction methods and `predict_kwargs` arguments, refer to the
     documentation of the registered dispatch functions.
 
