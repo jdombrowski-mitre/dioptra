@@ -38,7 +38,7 @@ They perform a variety of basic, low-level functions such as loading models, pre
 Calling a Task Plugin
 ---------------------
 
-Let's return to the :ref:`final example from the previous guide <entry-points-prefect-task-execution-code>` and expand the code to include the next task plugin call,
+Let's return to the :ref:`final example from the previous guide <entry-points-prefect-task-execution-code>` and expand the code to include the next task plugin call.
 
 .. code-block::
 
@@ -129,7 +129,7 @@ Discovery
 
 The directory where the Testbed Worker syncs the latest copies of the plugins from S3 must be added to Python's system path so that PyPlugs can search for them.
 However, modifying the Python system path must be done with care to ensure that you will still be able to import your other installed packages and avoid creating dependency conflicts.
-For this reason, the Testbed :term:`SDK` provides the :py:func:`~dioptra.sdk.plugin_dirs` function, which modifies the Python system path within a temporary context, see the example below,
+For this reason, the Testbed :term:`SDK` provides the :py:func:`~dioptra.sdk.plugin_dirs` function, which modifies the Python system path within a temporary context, see the example below.
 
 .. code-block::
 

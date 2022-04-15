@@ -29,7 +29,7 @@ Initial Configuration
 
 .. note::
 
-   We assume that, for the purposes of this section, you have already provisioned and configured the rest of Testbed environment.
+   We assume that, for the purposes of this section, you have already provisioned and configured the rest of the Testbed environment.
    Readers that have not are referred to the :doc:`Single Machine Deployment guide <single-machine-deployment>`.
 
 Configuring the task plugins system is a two part process,

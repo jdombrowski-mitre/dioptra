@@ -76,16 +76,16 @@ Creating a new dispatch method for a generic is done by writing a Python functio
 Each generic exposes a `.register` attribute that is a decorator for registering new dispatch methods, and is applied to functions that implement a new dispatch method.
 These functions do not have to have the same number of arguments as the associated generic, but all arguments that are used should be in the same order and assigned the same names, with extra arguments not found in the generic coming at the end.
 None of these arguments are allowed to have default values.
-The expected types for the arguments are then declared using type annotations, which is how the different dispatch methods available to generic are distinguished from one another.
+The expected types for the arguments are then declared using type annotations, which is how the different dispatch methods available to generics are distinguished from one another.
 
-Consider the following example for the :py:func:`~dioptra.sdk.generics.fit_estimator` generic, which has the following signature,
+Consider the following example for the :py:func:`~dioptra.sdk.generics.fit_estimator` generic, which has the following signature:
 
 .. code-block:: python
 
    def fit_estimator(estimator: Any, x: Any, y: Any, **kwargs):
       ...
 
-The code below registers two new implementations to this generic,
+The code below registers two new implementations to this generic:
 
 .. code-block:: python
 
@@ -120,7 +120,7 @@ There are a few things to note about the above code,
 #. The functions, which do not need to have unique names, are registered simply by topping them with the `@fit_estimator.register` decorator.
 
 More complicated function signatures can be used.
-For example, if you wanted to handle a :py:class:`~pandas.DataFrame` passed to the `x` argument differently from other data types, you could register the following implementation,
+For example, if you wanted to handle a :py:class:`~pandas.DataFrame` passed to the `x` argument differently from other data types, you could register the following implementation:
 
 .. code-block:: python
 
@@ -137,7 +137,7 @@ Packaging a generic plugin
 --------------------------
 
 A generic plugin is a Python package that registers an implementation to the generic's plugin entry point.
-The Python package itself should be structured in the usual way, with a minimal plugin package containing the following files,
+The Python package itself should be structured in the usual way, with a minimal plugin package containing the following files:
 
 .. code-block:: none
 
@@ -152,7 +152,7 @@ The Python package itself should be structured in the usual way, with a minimal 
            └── tf_keras_model.py
 
 In the file layout shown above, the implementation from the previous section is saved to the file ``src/fit_estimator_tf_keras/tf_keras_model.py``.
-Knowing this, we add the following to our `setup.cfg` file to register the implementation to the advertised plugin entry point for the :py:class:`~dioptra.sdk.generics.fit_estimator` generic,
+Knowing this, we add the following to our `setup.cfg` file to register the implementation to the advertised plugin entry point for the :py:class:`~dioptra.sdk.generics.fit_estimator` generic:
 
 .. code-block:: ini
 

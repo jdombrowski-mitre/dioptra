@@ -27,7 +27,7 @@ When designing a custom example, you may be required to create a new task plugin
 Task Organization: Built-in Tasks
 ---------------------------------
 
-Dioptra contains a number of builtin task plugins that can be executed across all available examples.
+Dioptra contains a number of built-in task plugins that can be executed across all available examples.
 They are stored in the following directories:
 
 .. code-block:: none
@@ -84,10 +84,10 @@ For additional examples on how these plugins are constructed, you can refer to `
 
 The following sections will now involve creating built-in and localized task plugins.
 
-Creating a Builtin Task
+Creating a Built-in Task
 -----------------------
 
-To create a builtin task, first the user must identify which builtin subdirectory (artifacts, attacks, etc.) should contain the new task.
+To create a built-in task, first the user must identify which built-in subdirectory (artifacts, attacks, etc.) should contain the new task.
 Once this is done, the task can be declared as follows:
 
 .. code-block::
@@ -117,7 +117,7 @@ For a slightly more complex task, consider the sample below, which will generate
 
        return result
 
-To access the builtin task from a given example, users will need to call the plugin-task using the following notation in their flow pipeline.
+To access the built-in task from a given example, users will need to call the plugin-task using the following notation in their flow pipeline.
 Note that we assumed these new tasks have been saved in a module named ``ops.py`` under the `data` task plugins directory:
 
 .. code-block:: python

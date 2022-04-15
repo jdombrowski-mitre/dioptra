@@ -50,7 +50,7 @@ There are two install options to start using `Conda Environments <https://docs.c
 
 .. tabbed:: Anaconda installation
 
-   The following links will provide a installation package for version 2020.11 of `Anaconda <https://docs.anaconda.com/>`_ on your host machine (must meet all :ref:`quickstart-system-requirements`).
+   The following links will provide an installation package for version 2020.11 of `Anaconda <https://docs.anaconda.com/>`_ on your host machine (must meet all :ref:`quickstart-system-requirements`).
 
    - `Anaconda for Windows <https://repo.anaconda.com/archive/Anaconda3-2020.11-Windows-x86_64.exe>`_
    - `Anaconda for MacOS <https://repo.anaconda.com/archive/Anaconda3-2020.11-MacOSX-x86_64.pkg>`_
@@ -60,7 +60,7 @@ There are two install options to start using `Conda Environments <https://docs.c
 
 .. tabbed:: Miniconda installation
 
-   The following links will provide a installation package for the latest version of `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ on your host machine (must meet all :ref:`quickstart-system-requirements`).
+   The following links will provide an installation package for the latest version of `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ on your host machine (must meet all :ref:`quickstart-system-requirements`).
 
    - `Miniconda for Windows <https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe>`_
    - `Miniconda for MacOS <https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.pkg>`_
@@ -99,7 +99,7 @@ A host device that uses a GNU/Linux environment can be the following:
    Dioptra was developed for use with native GNU/Linux environments.
    When using MacOS/OS X or Windows there is a chance you will encounter errors that are specific to your system's setup that are not covered in this documentation.
    To resolve such issues, first look at the external documentation linked (i.e. Homebrew_ and `Windows Subsystem for Linux`_) before submitting a bug report.
-   Also, when using a virtual machine it is likely the performance of can be throttled because of the CPU and Memory allocations set at the time the virtual machine was configured.
+   Also, when using a virtual machine it is likely the performance can be throttled because of the CPU and Memory allocations set at the time the virtual machine was configured.
    If performance becomes an issue when using a virtual machine, consider increasing the CPU and Memory resources allocated to the machine.
 
 .. _Homebrew: https://brew.sh/
@@ -111,19 +111,19 @@ Clone the Repository
 
 To clone the repository, open a new **Terminal** session for your operating system,
 
-.. tabbed:: Windows
-
-   Use the keyboard shortcut :kbd:`windows` + :kbd:`r` to open **Run**, then type ``wsl`` into the search bar and click *OK* to start a `Windows Subsystem for Linux`_ session.
-
-.. tabbed:: MacOS
-
-   Use the keyboard shortcut :kbd:`command` + :kbd:`space` to open the **Spotlight Search**, type ``Terminal`` into the search bar, and click the *Terminal* application under *Top Hit* at the top of your results.
-
 .. tabbed:: Linux
 
    Use the keyboard shortcut :kbd:`ctrl` + :kbd:`alt` + :kbd:`t` to open the **Terminal**.
 
 Next, navigate to the directory where you will clone the repository,
+
+.. tabbed:: MacOS
+
+   Use the keyboard shortcut :kbd:`command` + :kbd:`space` to open the **Spotlight Search**, type ``Terminal`` into the search bar, and click the *Terminal* application under *Top Hit* at the top of your results.
+
+.. tabbed:: Windows
+
+   Use the keyboard shortcut :kbd:`windows` + :kbd:`r` to open **Run**, then type ``wsl`` into the search bar and click *OK* to start a `Windows Subsystem for Linux`_ session.
 
 .. code-block:: sh
 
@@ -192,14 +192,14 @@ Demo-specific instructions for creating a suitable environment will be provided 
 
       conda activate name-of-the-environment
 
-   **NOTE**: The *name-of-the-environment* used for the demos provided in the project codebase can be found be inspecting the specific *environment.yml* file for the tag labeled *name*.
+   **NOTE**: The *name-of-the-environment* used for the demos provided in the project codebase can be found by inspecting the specific *environment.yml* file for the tag labeled *name*.
 
 .. _quickstart-build-images:
 
 Pulling the Latest Docker Images
 --------------------------------
 
-The last step to setup the Secure AI Testbed is to build the necessary docker images used by the repositories various tutorials.
+The last step to setup the Dioptra Testbed is to build the necessary docker images used by the repository's various tutorials.
 
 **NOTE**: The following steps will only work if you are attempting to use the *master* branch of the repository.
 If you are a developer using a separate branch please see :ref:`dev-guide-build-dev-images`.
@@ -214,7 +214,8 @@ If you are a developer using a separate branch please see :ref:`dev-guide-build-
    This should be the same path used in step 2 of :ref:`Clone the Repository <quickstart-clone-repository>`.
 
 2. Pull the latest vendor, Continuous Integration (CI), and Testbed images.
-   These are most current images that are pre-built to be used by the *master* branch.
+   These are
+   most current images that are pre-built to be used by the *master* branch.
 
    .. code-block:: bash
 

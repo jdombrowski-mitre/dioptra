@@ -64,7 +64,7 @@ Building Development Docker Images
 
          git branch -a
 
-4. Pull the latest vendor, Continuous Integration (CI), and lab images from the MITRE artifactory and retag them.
+4. Pull the latest vendor, Continuous Integration (CI), and lab images and retag them.
 
    .. code-block:: sh
 
@@ -101,7 +101,7 @@ Building Development Docker Images
 
       mv docker-compose.yml.backup docker-compose.yml
 
-8. Navigate back to the root directory of the to the root directory of the project codebase.
+8. Navigate back to the root directory of the project codebase.
 
    .. code-block:: sh
 
