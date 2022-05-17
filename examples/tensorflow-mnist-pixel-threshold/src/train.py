@@ -336,6 +336,14 @@ def init_train_flow() -> Flow:
             "log_metrics",
             metrics=classifier_performance_metrics,
         )
+        logged_tensorflow_keras_estimator = pyplugs.call_task(
+            f"{_PLUGINS_IMPORT_PATH}.tracking",
+            "mlflow",
+            "log_tensorflow_keras_estimator",
+            estimator=classifier,
+            model_dir="model",
+            upstream_tasks=[history],
+        )
         model_version = pyplugs.call_task(  # noqa: F841
             f"{_PLUGINS_IMPORT_PATH}.registry",
             "mlflow",
@@ -343,7 +351,7 @@ def init_train_flow() -> Flow:
             active_run=active_run,
             name=register_model_name,
             model_dir="model",
-            upstream_tasks=[history],
+            upstream_tasks=[logged_tensorflow_keras_estimator],
         )
 
     return flow

@@ -68,7 +68,7 @@ entry_points:
       model_architecture: { type: string, default: "le_net" }
       epochs: { type: float, default: 30 }
       batch_size: { type: float, default: 32 }
-      register_model_name: { type: string, default: "" }
+      register_model_name: { type: string, default: "mnist_le_net" }
       learning_rate: { type: float, default: 0.001 }
       optimizer: { type: string, default: "Adam" }
       validation_split: { type: float, default: 0.2 }
