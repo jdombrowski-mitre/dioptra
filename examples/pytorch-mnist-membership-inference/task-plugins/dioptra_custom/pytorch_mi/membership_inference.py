@@ -43,7 +43,7 @@ def wrap_torch_classifier(torch_model, loss_fn, input_shape, classes):
 
 def init_mi(model, loss_fn, input_shape, classes, attack_type, **kwargs):
     classifier = wrap_torch_classifier(model, loss_fn, input_shape, classes, **kwargs)
-    attack = MembershipInferenceBlackBox(classifier=classifier,
+    attack = MembershipInferenceBlackBox(estimator=classifier,
                                          input_type="loss",
                                          attack_model_type=attack_type,
                                          **kwargs)
