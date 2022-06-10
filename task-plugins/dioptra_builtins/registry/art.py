@@ -76,7 +76,9 @@ def load_wrapped_tensorflow_keras_classifier(
     keras_classifier: Sequential = load_tensorflow_keras_classifier(
         name=name, version=version
     )
-    wrapped_keras_classifier: KerasClassifier = KerasClassifier(model=keras_classifier, **classifier_kwargs)
+    wrapped_keras_classifier: KerasClassifier = KerasClassifier(
+        model=keras_classifier, **classifier_kwargs
+    )
     LOGGER.info(
         "Wrap Keras classifier for compatibility with Adversarial Robustness Toolbox"
     )
