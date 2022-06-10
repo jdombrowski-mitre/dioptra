@@ -29,6 +29,8 @@ from dioptra import pyplugs
 from dioptra.sdk.exceptions import ARTDependencyError, TensorflowDependencyError
 from dioptra.sdk.utilities.decorators import require_package
 
+from typing import Any, Optional, Dict
+
 from .mlflow import load_tensorflow_keras_classifier
 
 LOGGER: BoundLogger = structlog.stdlib.get_logger()
